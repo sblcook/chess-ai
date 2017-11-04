@@ -1,6 +1,8 @@
-class Tile {
+package Board;
 
-    Tile(int row, int column){
+public class Tile {
+
+    public Tile(int row, int column){
         this.row = row;
         this.column = column;
     }
