@@ -7,6 +7,6 @@ import Enums.PieceType;
 public class Knight extends Piece{
 
     Knight(Colors color, Tile tile){
-        super(color, tile, PieceType.BISHOP);
+        super(color, tile, PieceType.KNIGHT);
     }
 }
