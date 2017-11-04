@@ -9,7 +9,7 @@ import static junit.framework.TestCase.assertEquals;
 public class PieceTest {
 
     Tile tile = new Tile(2, 4);
-    Piece piece = new Piece(Colors.BLACK, tile);
+    Piece piece = new Piece(Colors.BLACK, null);
 
     @Test
     public void getPieceColorTest() throws Exception {
@@ -18,6 +18,7 @@ public class PieceTest {
 
     @Test
     public void getLocationTest() throws Exception {
+        piece.setLocation(tile);
         assertEquals(tile, piece.getLocation());
     }
 

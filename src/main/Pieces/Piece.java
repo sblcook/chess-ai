@@ -20,4 +20,8 @@ class Piece {
     Tile getLocation(){
         return this.location;
     }
+
+    public void setLocation(Tile location) {
+        this.location = location;
+    }
 }
