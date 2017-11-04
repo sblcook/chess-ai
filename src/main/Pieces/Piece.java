@@ -16,6 +16,11 @@ class Piece {
         this.pieceType = pieceType;
     }
 
+    Piece(Colors color, Tile tile){
+        this.pieceColor = color;
+        this.location = tile;
+    }
+
     Colors getPieceColor(){
         return this.pieceColor;
     }
