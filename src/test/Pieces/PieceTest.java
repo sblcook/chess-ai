@@ -8,7 +8,7 @@ import static junit.framework.TestCase.assertEquals;
 public class PieceTest {
 
     @Test
-    public void getPieceColor() throws Exception {
+    public void getPieceColorTest() throws Exception {
         Piece piece = new Piece(Colors.BLACK);
         assertEquals(Colors.BLACK, piece.getPieceColor());
     }
