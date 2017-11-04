@@ -6,13 +6,12 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class BishopTest {
-
+public class KnightTest {
     Tile tile = new Tile(1,1);
 
     @Test
-    public void bishopTest() throws Exception {
-        Piece piece = new Bishop(Colors.BLACK, tile);
+    public void knightTest() throws Exception {
+        Piece piece = new Knight(Colors.BLACK, tile);
         assertEquals(Colors.BLACK, piece.getPieceColor());
         assertEquals(tile, piece.getLocation());
     }
