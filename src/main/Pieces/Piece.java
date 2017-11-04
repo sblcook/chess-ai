@@ -11,6 +11,6 @@ class Piece {
     }
 
     Colors getPieceColor(){
-        return null;
+        return pieceColor;
     }
 }
