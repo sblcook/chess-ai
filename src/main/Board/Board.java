@@ -1,6 +1,5 @@
 package Board;
 
-import Enums.Colors;
 import Pieces.Piece;
 
 import java.util.List;
@@ -9,17 +8,19 @@ public abstract class Board {
 
     //attempting to implement a Factory Method
 
-    Tile[][] tiles;
-    List<? extends Piece> blackPieceList;
-    List<? extends Piece> whitePieceList;
+    private Tile[][] tiles;
+    private List<Piece> blackPieceList;
+    private List<Piece> whitePieceList;
 
-    Board(){
-        tiles = createTiles();
-        blackPieceList = createPieceList(Colors.BLACK);
-        whitePieceList = createPieceList(Colors.WHITE);
+    public Board(){
+        tiles = createTiles(); //important that tiles are created first, req for pieceLists
+        blackPieceList = createWhitePieceList(tiles);
+        whitePieceList = createBlackPieceList(tiles);
     }
 
     abstract protected Tile[][] createTiles();
 
-    abstract protected List<? extends Piece> createPieceList(Colors pieceColor);
+    abstract protected List<Piece> createBlackPieceList(Tile[][] tiles);
+
+    abstract protected List<Piece> createWhitePieceList(Tile[][] tiles);
 }
