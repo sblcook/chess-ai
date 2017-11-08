@@ -2,25 +2,46 @@ package Board;
 
 import Pieces.Piece;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Board {
 
-    //attempting to implement a Factory Method
+    protected List<Piece> blackPieceList;
+    protected List<Piece> whitePieceList;
+    protected Tile[][] tiles;
 
-    private Tile[][] tiles;
-    private List<Piece> blackPieceList;
-    private List<Piece> whitePieceList;
-
-    public Board(){
-        tiles = createTiles(); //important that tiles are created first, req for pieceLists
-        blackPieceList = createWhitePieceList(tiles);
-        whitePieceList = createBlackPieceList(tiles);
+    public List<Piece> getBlackPieceList() {
+        return blackPieceList;
     }
 
-    abstract protected Tile[][] createTiles();
+    public List<Piece> getWhitePieceList() {
+        return whitePieceList;
+    }
 
-    abstract protected List<Piece> createBlackPieceList(Tile[][] tiles);
+    public Tile[][] getTiles() {
+        return tiles;
+    }
 
-    abstract protected List<Piece> createWhitePieceList(Tile[][] tiles);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Board board = (Board) o;
+
+        if (blackPieceList != null ? !blackPieceList.equals(board.blackPieceList) : board.blackPieceList != null)
+            return false;
+        if (whitePieceList != null ? !whitePieceList.equals(board.whitePieceList) : board.whitePieceList != null)
+            return false;
+        return Arrays.deepEquals(tiles, board.tiles);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = blackPieceList != null ? blackPieceList.hashCode() : 0;
+        result = 31 * result + (whitePieceList != null ? whitePieceList.hashCode() : 0);
+        result = 31 * result + Arrays.deepHashCode(tiles);
+        return result;
+    }
 }

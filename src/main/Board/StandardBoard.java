@@ -14,8 +14,14 @@ import java.util.List;
 
 public class StandardBoard extends Board{
 
-    @Override
-    protected Tile[][] createTiles(){
+
+    public StandardBoard(){
+        tiles = createTiles(); //important that tiles are created first, req for pieceLists
+        blackPieceList = createWhitePieceList(tiles);
+        whitePieceList = createBlackPieceList(tiles);
+    }
+
+    private Tile[][] createTiles(){
         int i, j;
         Tile[][] tileGrid = new Tile[8][8];
         for (i=0; i < 8; i++){
@@ -27,8 +33,7 @@ public class StandardBoard extends Board{
         return tileGrid;
     }
 
-    @Override
-    protected List<Piece> createBlackPieceList(Tile[][] tiles){
+    private List<Piece> createBlackPieceList(Tile[][] tiles){
         List<Piece> pieceList = new LinkedList<>();
 
         pieceList.add(new Rook(Colors.BLACK, tiles[7][0]));
@@ -47,8 +52,7 @@ public class StandardBoard extends Board{
         return pieceList;
     }
 
-    @Override
-    protected List<Piece> createWhitePieceList(Tile[][] tiles){
+    private List<Piece> createWhitePieceList(Tile[][] tiles){
         List<Piece> pieceList = new LinkedList<>();
 
         pieceList.add(new Rook(Colors.WHITE, tiles[0][0]));
