@@ -19,13 +19,13 @@ import static org.junit.Assert.assertArrayEquals;
 public class StandardBoardTest {
 
     private Board board = new StandardBoard();
-    private List<Piece> expected = new LinkedList<>();
-    private Tile[][] tiles = board.createTiles();
-
+    private Tile[][] tiles = board.getTiles();
+    List<Piece> blackPieceList = board.getBlackPieceList();
+    List<Piece> whitePieceList = board.getWhitePieceList();
 
     @Test
     public void createTiles() throws Exception {
-        Tile[][] tileGrid = board.createTiles();
+        Tile[][] tileGrid = board.getTiles();
         for(int i = 0; i < 8; i++){
             Tile[] expected = new Tile[8];
             for (int j = 0; j < 8; j++){
@@ -37,6 +37,8 @@ public class StandardBoardTest {
 
     @Test
     public void createBlackPieceList() throws Exception {
+        List<Piece> expected = new LinkedList<>();
+
         expected.add(new Rook(Colors.BLACK, tiles[7][0]));
         expected.add(new Knight(Colors.BLACK, tiles[7][1]));
         expected.add(new Bishop(Colors.BLACK, tiles[7][2]));
@@ -50,11 +52,13 @@ public class StandardBoardTest {
             expected.add(new Pawn(Colors.BLACK, tiles[6][i]));
         }
 
-        assertEquals(expected, board.createBlackPieceList(tiles));
+        assertEquals(expected, whitePieceList);
     }
 
     @Test
     public void createWhitePieceList() throws Exception {
+        List<Piece> expected = new LinkedList<>();
+
         expected.add(new Rook(Colors.WHITE, tiles[0][0]));
         expected.add(new Knight(Colors.WHITE, tiles[0][1]));
         expected.add(new Bishop(Colors.WHITE, tiles[0][2]));
@@ -68,7 +72,7 @@ public class StandardBoardTest {
             expected.add(new Pawn(Colors.WHITE, tiles[1][i]));
         }
 
-        assertEquals(expected, board.createWhitePieceList(tiles));
+        assertEquals(expected, blackPieceList);
     }
 
 }
