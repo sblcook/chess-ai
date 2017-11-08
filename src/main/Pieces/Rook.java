@@ -6,7 +6,7 @@ import Enums.PieceType;
 
 public class Rook extends Piece {
 
-    Rook(Colors colors, Tile tile){
+    public Rook(Colors colors, Tile tile){
         super(colors, tile, PieceType.ROOK);
     }
 }

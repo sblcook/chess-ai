@@ -6,7 +6,7 @@ import Enums.PieceType;
 
 public class Pawn extends Piece{
 
-    Pawn(Colors colors, Tile tile){
+    public Pawn(Colors colors, Tile tile){
         super(colors, tile, PieceType.PAWN);
     }
 }
