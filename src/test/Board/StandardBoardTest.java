@@ -55,6 +55,20 @@ public class StandardBoardTest {
 
     @Test
     public void createWhitePieceList() throws Exception {
+        expected.add(new Rook(Colors.WHITE, tiles[0][0]));
+        expected.add(new Knight(Colors.WHITE, tiles[0][1]));
+        expected.add(new Bishop(Colors.WHITE, tiles[0][2]));
+        expected.add(new Queen(Colors.WHITE, tiles[0][3]));
+        expected.add(new King(Colors.WHITE, tiles[0][4]));
+        expected.add(new Bishop(Colors.WHITE, tiles[0][5]));
+        expected.add(new Knight(Colors.WHITE, tiles[0][6]));
+        expected.add(new Rook(Colors.WHITE, tiles[0][7]));
+
+        for(int i = 0; i < 8; i++){
+            expected.add(new Pawn(Colors.WHITE, tiles[1][i]));
+        }
+
+        assertEquals(expected, board.createWhitePieceList(tiles));
     }
 
 }
