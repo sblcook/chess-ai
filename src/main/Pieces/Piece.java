@@ -4,7 +4,7 @@ import Board.Tile;
 import Enums.Colors;
 import Enums.PieceType;
 
-class Piece {
+public class Piece {
 
     private Colors pieceColor;
     private Tile location;
