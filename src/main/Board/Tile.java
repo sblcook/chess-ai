@@ -13,6 +13,10 @@ public class Tile {
         return this.column;
     }
 
+    int getRow(){
+        return this.row;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -28,10 +32,6 @@ public class Tile {
         int result = column;
         result = 31 * result + row;
         return result;
-    }
-
-    int getRow(){
-        return this.row;
     }
 
 }
