@@ -4,7 +4,7 @@ import Board.Tile;
 import Enums.Colors;
 import Enums.PieceType;
 
-public abstract class Piece {
+public class Piece {
 
     private Colors pieceColor;
     private Tile location;
@@ -40,15 +40,15 @@ public abstract class Piece {
         Piece piece = (Piece) o;
 
         if (pieceColor != piece.pieceColor) return false;
-        if (!location.equals(piece.location)) return false;
+        if (location != null ? !location.equals(piece.location) : piece.location != null) return false;
         return pieceType == piece.pieceType;
     }
 
     @Override
     public int hashCode() {
-        int result = pieceColor.hashCode();
-        result = 31 * result + location.hashCode();
-        result = 31 * result + pieceType.hashCode();
+        int result = pieceColor != null ? pieceColor.hashCode() : 0;
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (pieceType != null ? pieceType.hashCode() : 0);
         return result;
     }
 }
