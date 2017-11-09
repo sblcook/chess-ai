@@ -6,7 +6,7 @@ import Enums.PieceType;
 
 public class Bishop extends Piece{
 
-    Bishop(Colors color, Tile tile){
+    public Bishop(Colors color, Tile tile){
         super(color, tile, PieceType.BISHOP);
     }
 }
