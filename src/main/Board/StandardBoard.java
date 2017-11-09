@@ -20,8 +20,8 @@ public class StandardBoard extends Board{
         blackPieceList = createWhitePieceList(tiles);
         whitePieceList = createBlackPieceList(tiles);
     }
-
-    private Tile[][] createTiles(){
+    @Override
+    protected Tile[][] createTiles(){
         int i, j;
         Tile[][] tileGrid = new Tile[8][8];
         for (i=0; i < 8; i++){
@@ -33,7 +33,8 @@ public class StandardBoard extends Board{
         return tileGrid;
     }
 
-    private List<Piece> createBlackPieceList(Tile[][] tiles){
+    @Override
+    protected List<Piece> createBlackPieceList(Tile[][] tiles){
         List<Piece> pieceList = new LinkedList<>();
 
         pieceList.add(new Rook(Colors.BLACK, tiles[7][0]));
@@ -52,7 +53,8 @@ public class StandardBoard extends Board{
         return pieceList;
     }
 
-    private List<Piece> createWhitePieceList(Tile[][] tiles){
+    @Override
+    protected List<Piece> createWhitePieceList(Tile[][] tiles){
         List<Piece> pieceList = new LinkedList<>();
 
         pieceList.add(new Rook(Colors.WHITE, tiles[0][0]));

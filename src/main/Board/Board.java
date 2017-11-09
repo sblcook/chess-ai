@@ -23,7 +23,14 @@ public abstract class Board {
         return tiles;
     }
 
-    @Override
+    protected abstract Tile[][] createTiles();
+
+    protected abstract List<Piece> createBlackPieceList(Tile[][] tiles);
+
+    protected abstract List<Piece> createWhitePieceList(Tile[][] tiles);
+
+
+        @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
