@@ -33,5 +33,4 @@ public class Tile {
         result = 31 * result + row;
         return result;
     }
-
 }
