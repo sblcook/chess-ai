@@ -1,15 +1,5 @@
-/*
-source: tile
-destination: tile
-movePiece : Piece
-capturedPiece : Piece
- */
-
 import Board.Tile;
 import Pieces.Piece;
-
-import static java.awt.Color.black;
-import static java.awt.Color.white;
 
 public class Move {
    private Tile source;
