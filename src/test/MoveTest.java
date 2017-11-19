@@ -6,8 +6,8 @@ import Pieces.Rook;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
 
 public class MoveTest {
     private Tile source = new Tile(1,1);
