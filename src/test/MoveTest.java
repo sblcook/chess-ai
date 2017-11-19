@@ -14,6 +14,7 @@ public class MoveTest {
     private Tile destination = new Tile(2,2);
     private Piece movedPiece = new Rook(Colors.BLACK, source);
     private Piece capturedPiece = new Bishop(Colors.WHITE, destination);
+
     @Test
     public void moveTest() throws Exception {
         Move move = new Move(source,destination,movedPiece,null);
@@ -24,7 +25,6 @@ public class MoveTest {
         assertEquals(source, moveSource);
         assertEquals(destination, moveDestination);
     }
-
     @Test
     public void moveTestCapture() throws Exception {
         //Piece piece = new Bishop(Colors.BLACK, tile);
