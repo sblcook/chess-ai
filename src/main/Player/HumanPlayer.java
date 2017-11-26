@@ -1,32 +1,13 @@
+package Player;
 
-public class HumanPlayer extends Player{
 
-    String name;
+import Enums.Result;
 
-    Map<Result,Int> Performance;
+import java.util.Map;
 
-    @Override
-    public ChessPieceTurn getTurn(Tile p){
-        return null;
-    }
+public class HumanPlayer extends Player {
 
-    public HumanPlayer(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Map<Result, Int> getPerformance() {
-        return Performance;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPerformance(Map<Result, Int> performance) {
-        Performance = performance;
+    public HumanPlayer(String name, Map<Result, Integer> performance){
+        super(name, performance);
     }
 }
