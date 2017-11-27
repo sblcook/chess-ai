@@ -1,9 +1,9 @@
 import Board.Board;
+import Enums.Colors;
 import Enums.Result;
 import Player.Player;
 import org.junit.Test;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ public class GameTest {
     private Player turn;
     private Player player1;
     private Player player2;
-    private Map<Player, Color> playerColor;
+    private Map<Player, Colors> playerColor;
     private Map<Player, Result> result;
 
     @Test

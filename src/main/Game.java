@@ -3,12 +3,12 @@ import Board.StandardBoard;
 import Enums.Result;
 import Player.Player;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import Player.Player;
 import Player.HumanPlayer;
+import Enums.Colors;
 
 public class Game {
 
@@ -17,14 +17,14 @@ public class Game {
     private Player turn;
     private Player player1;
     private Player player2;
-    private Map<Player, Color> playerColor;
+    private Map<Player, Colors> playerColor;
     private Map<Player, Result> result;
 
     public Game()
     {
         gameBoard = new StandardBoard();
         playedMoves = new HashMap<Player, List<Move>>();
-        playerColor = new HashMap<Player, Color>();
+        playerColor = new HashMap<Player, Colors>();
         result = new HashMap<Player, Result>();
     }
     public Board getGameBoard() {
@@ -47,7 +47,7 @@ public class Game {
         return player2;
     }
 
-    public Map<Player, Color> getPlayerColor() {
+    public Map<Player, Colors> getPlayerColor() {
         return playerColor;
     }
 
@@ -75,7 +75,7 @@ public class Game {
         this.player2 = player2;
     }
 
-    public void setPlayerColor(Map<Player, Color> playerColor) {
+    public void setPlayerColor(Map<Player, Colors> playerColor) {
         this.playerColor = playerColor;
     }
 
