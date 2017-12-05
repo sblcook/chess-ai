@@ -7,14 +7,15 @@ import java.util.List;
 
 public abstract class Board {
 
+    //Class variables
     protected List<Piece> blackPieceList;
     protected List<Piece> whitePieceList;
     protected Tile[][] tiles;
 
+    //Methods
     public List<Piece> getBlackPieceList() {
         return blackPieceList;
     }
-
     public List<Piece> getWhitePieceList() {
         return whitePieceList;
     }
@@ -29,8 +30,10 @@ public abstract class Board {
 
     protected abstract List<Piece> createWhitePieceList(Tile[][] tiles);
 
+    protected abstract boolean move(Piece movedPiece, Tile destination);
 
-        @Override
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

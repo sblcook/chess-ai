@@ -1,22 +1,24 @@
 import Board.Board;
+import Board.StandardBoard;
 import Enums.Colors;
 import Enums.Result;
 import Player.Player;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class GameTest {
-    private Board gameBoard;
-    private Map<Player, List<Move> > playedMoves;
+    private Board gameBoard = new StandardBoard();
+    private Map<Player, List<Move> > playedMoves = new HashMap<Player, List<Move>>();
     private Player turn;
     private Player player1;
     private Player player2;
-    private Map<Player, Colors> playerColor;
-    private Map<Player, Result> result;
+    private Map<Player, Colors> playerColor = new HashMap<Player, Colors>();
+    private Map<Player, Result> result = new HashMap<Player, Result>();
 
     @Test
     public void boardTest() throws Exception {
