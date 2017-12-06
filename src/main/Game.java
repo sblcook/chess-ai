@@ -1,4 +1,5 @@
 import Board.Board;
+import Board.BoardFactory;
 import Board.StandardBoard;
 import Enums.Result;
 import Player.Player;
@@ -19,14 +20,18 @@ public class Game {
     private Player player2;
     private Map<Player, Colors> playerColor;
     private Map<Player, Result> result;
+    BoardFactory bf = new BoardFactory();
 
-    public Game()
+    public Game(Player player1, Player player2)
     {
-        gameBoard = new StandardBoard();
+        this.player1 = player1;
+        this.player2 = player2;
+        gameBoard = bf.getBoard("StandardBoard");
         playedMoves = new HashMap<Player, List<Move>>();
         playerColor = new HashMap<Player, Colors>();
         result = new HashMap<Player, Result>();
     }
+
     public Board getGameBoard() {
         return gameBoard;
     }
@@ -65,14 +70,6 @@ public class Game {
 
     public void setTurn(Player turn) {
         this.turn = turn;
-    }
-
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
-    }
-
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
     }
 
     public void setPlayerColor(Map<Player, Colors> playerColor) {

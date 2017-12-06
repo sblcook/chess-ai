@@ -80,7 +80,7 @@ public class StandardBoard extends Board {
         boolean flag = false;
         switch (movedPiece.getPieceColor()) {
             case WHITE:
-                System.out.println("Mondays are bad.");
+                flag = moveWhitePiece(movedPiece, destination);
                 break;
             case BLACK:
                 flag = moveBlackPiece(movedPiece, destination);

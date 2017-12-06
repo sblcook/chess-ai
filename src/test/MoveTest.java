@@ -21,7 +21,7 @@ public class MoveTest {
         Tile moveSource = move.getSource();
         Tile moveDestination = move.getDestination();
         Piece movedMovedPiece = move.getMovedPiece();
-        assertEquals(Colors.BLACK, movedMovedPiece.getPieceColor());
+        assertEquals(movedMovedPiece,move.getMovedPiece());
         assertEquals(source, moveSource);
         assertEquals(destination, moveDestination);
     }
@@ -33,8 +33,6 @@ public class MoveTest {
         Tile moveDestination = move.getDestination();
         Piece moveMovedPiece = move.getMovedPiece();
         Piece moveCapturedPiece = move.getCapturedPiece();
-        assertEquals(Colors.BLACK, moveMovedPiece.getPieceColor());
-        assertEquals(Colors.WHITE, moveCapturedPiece.getPieceColor());
         assertEquals(source, moveSource);
         assertEquals(destination, moveDestination);
     }
