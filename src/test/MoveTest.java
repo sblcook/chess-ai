@@ -6,30 +6,35 @@ import Pieces.Rook;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
 
 public class MoveTest {
-    Tile source = new Tile(1,1);
-    Tile destination = new Tile(2,2);
-    Piece movedPiece = new Rook(Colors.BLACK, source);
-    Piece capturedPiece = new Bishop(Colors.WHITE, destination);
+    private Tile source = new Tile(1,1);
+    private Tile destination = new Tile(2,2);
+    private Piece movedPiece = new Rook(Colors.BLACK, source);
+    private Piece capturedPiece = new Bishop(Colors.WHITE, destination);
+
     @Test
     public void moveTest() throws Exception {
         Move move = new Move(source,destination,movedPiece,null);
-        assertEquals(Colors.BLACK, movedPiece.getPieceColor());
-        assertEquals(source, movedPiece.getLocation());
-        assertEquals(destination, capturedPiece.getLocation());
+        Tile moveSource = move.getSource();
+        Tile moveDestination = move.getDestination();
+        Piece movedMovedPiece = move.getMovedPiece();
+        assertEquals(movedMovedPiece,move.getMovedPiece());
+        assertEquals(source, moveSource);
+        assertEquals(destination, moveDestination);
     }
-
     @Test
     public void moveTestCapture() throws Exception {
         //Piece piece = new Bishop(Colors.BLACK, tile);
         Move move = new Move(source,destination,movedPiece,capturedPiece);
-        assertEquals(Colors.BLACK, movedPiece.getPieceColor());
-        assertEquals(Colors.WHITE, capturedPiece.getPieceColor());
-        assertEquals(source, movedPiece.getLocation());
-        assertEquals(destination, capturedPiece.getLocation());
+        Tile moveSource = move.getSource();
+        Tile moveDestination = move.getDestination();
+        Piece moveMovedPiece = move.getMovedPiece();
+        Piece moveCapturedPiece = move.getCapturedPiece();
+        assertEquals(source, moveSource);
+        assertEquals(destination, moveDestination);
     }
 
 

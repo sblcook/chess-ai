@@ -13,6 +13,7 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
+import static Enums.Colors.WHITE;
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertArrayEquals;
 
@@ -59,20 +60,40 @@ public class StandardBoardTest {
     public void createWhitePieceList() throws Exception {
         List<Piece> expected = new LinkedList<>();
 
-        expected.add(new Rook(Colors.WHITE, tiles[0][0]));
-        expected.add(new Knight(Colors.WHITE, tiles[0][1]));
-        expected.add(new Bishop(Colors.WHITE, tiles[0][2]));
-        expected.add(new Queen(Colors.WHITE, tiles[0][3]));
-        expected.add(new King(Colors.WHITE, tiles[0][4]));
-        expected.add(new Bishop(Colors.WHITE, tiles[0][5]));
-        expected.add(new Knight(Colors.WHITE, tiles[0][6]));
-        expected.add(new Rook(Colors.WHITE, tiles[0][7]));
+        expected.add(new Rook(WHITE, tiles[0][0]));
+        expected.add(new Knight(WHITE, tiles[0][1]));
+        expected.add(new Bishop(WHITE, tiles[0][2]));
+        expected.add(new Queen(WHITE, tiles[0][3]));
+        expected.add(new King(WHITE, tiles[0][4]));
+        expected.add(new Bishop(WHITE, tiles[0][5]));
+        expected.add(new Knight(WHITE, tiles[0][6]));
+        expected.add(new Rook(WHITE, tiles[0][7]));
 
         for(int i = 0; i < 8; i++){
-            expected.add(new Pawn(Colors.WHITE, tiles[1][i]));
+            expected.add(new Pawn(WHITE, tiles[1][i]));
         }
 
         assertEquals(expected, blackPieceList);
     }
 
+    @Test
+    public void moveToEmptyTest() {
+        boolean flag = false;
+        Board board = new StandardBoard();
+        whitePieceList = board.getWhitePieceList();
+        Piece movedPiece = whitePieceList.get(0);
+        flag = board.move(movedPiece, tiles[4][4]);
+
+        assertEquals(flag, true);
+    }
+    @Test
+    public void moveToCaptureTest() {
+        boolean flag = false;
+        Board board = new StandardBoard();
+        blackPieceList = board.getBlackPieceList();
+        Piece movedPiece = blackPieceList.get(0);
+        flag = board.move(movedPiece,tiles[0][0]);
+
+        assertEquals(flag, true);
+    }
 }
