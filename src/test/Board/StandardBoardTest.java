@@ -27,10 +27,10 @@ public class StandardBoardTest {
     @Test
     public void createTiles() throws Exception {
         Tile[][] tileGrid = board.getTiles();
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             Tile[] expected = new Tile[8];
-            for (int j = 0; j < 8; j++){
-                expected[j] = new Tile(i+1, j+1);
+            for (int j = 0; j < 8; j++) {
+                expected[j] = new Tile(i + 1, j + 1);
             }
             assertArrayEquals(expected, tileGrid[i]);
         }
@@ -49,11 +49,11 @@ public class StandardBoardTest {
         expected.add(new Knight(Colors.BLACK, tiles[7][6]));
         expected.add(new Rook(Colors.BLACK, tiles[7][7]));
 
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             expected.add(new Pawn(Colors.BLACK, tiles[6][i]));
         }
 
-        assertEquals(expected, whitePieceList);
+        assertEquals(expected, blackPieceList);
     }
 
     @Test
@@ -69,11 +69,31 @@ public class StandardBoardTest {
         expected.add(new Knight(WHITE, tiles[0][6]));
         expected.add(new Rook(WHITE, tiles[0][7]));
 
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             expected.add(new Pawn(WHITE, tiles[1][i]));
         }
 
-        assertEquals(expected, blackPieceList);
+        assertEquals(expected, whitePieceList);
+    }
+
+    @Test
+    public void removeWhitePieceTest() {
+        boolean flag = false;
+        Board board = new StandardBoard();
+        Piece removedPiece = whitePieceList.get(0);
+        flag = board.removePiece(removedPiece);
+
+        assertEquals(flag, true);
+    }
+
+    @Test
+    public void removeBlackPieceTest() {
+        boolean flag = false;
+        Board board = new StandardBoard();
+        Piece removedPiece = blackPieceList.get(1);
+        flag = board.removePiece(removedPiece);
+
+        assertEquals(flag, true);
     }
 
     @Test
@@ -86,14 +106,16 @@ public class StandardBoardTest {
 
         assertEquals(flag, true);
     }
+
     @Test
     public void moveToCaptureTest() {
         boolean flag = false;
         Board board = new StandardBoard();
         blackPieceList = board.getBlackPieceList();
         Piece movedPiece = blackPieceList.get(0);
-        flag = board.move(movedPiece,tiles[0][0]);
+        flag = board.move(movedPiece, tiles[0][0]);
 
         assertEquals(flag, true);
     }
+
 }

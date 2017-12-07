@@ -10,15 +10,15 @@ public abstract class Board {
     //Class variables
     protected List<Piece> blackPieceList;
     protected List<Piece> whitePieceList;
+    protected List<Piece> removedPieceList;
     protected Tile[][] tiles;
 
     //Methods
     public List<Piece> getBlackPieceList() {
         return blackPieceList;
     }
-    public List<Piece> getWhitePieceList() {
-        return whitePieceList;
-    }
+    public List<Piece> getWhitePieceList() { return whitePieceList; }
+    public List<Piece> getRemovedPieceList() { return removedPieceList;}
 
     public Tile[][] getTiles() {
         return tiles;
@@ -30,8 +30,11 @@ public abstract class Board {
 
     protected abstract List<Piece> createWhitePieceList(Tile[][] tiles);
 
+    protected abstract List<Piece> createRemovedPieceList(Tile[][] tiles);
+
     protected abstract boolean move(Piece movedPiece, Tile destination);
 
+    protected abstract boolean removePiece(Piece removedPiece);
 
     @Override
     public boolean equals(Object o) {
