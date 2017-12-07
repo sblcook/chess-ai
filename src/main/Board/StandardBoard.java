@@ -11,10 +11,12 @@ import Pieces.Rook;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class StandardBoard {
 
     protected Tile[][] tiles;
+    protected Map<Piece, List<Tile>> validMoves;
 
     public StandardBoard() {
         tiles = createTiles(); //important that tiles are created first, req for pieceLists
@@ -31,5 +33,6 @@ public class StandardBoard {
         }
         return tileGrid;
     }
+
 
 }

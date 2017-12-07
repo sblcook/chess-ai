@@ -9,8 +9,12 @@ import Pieces.Piece;
 import Pieces.Queen;
 import Pieces.Rook;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import static Enums.Colors.BLACK;
+import static Enums.Colors.WHITE;
 
 public class Board extends StandardBoard {
 
@@ -23,20 +27,54 @@ public class Board extends StandardBoard {
         whitePieceList = createBlackPieceList(tiles);
     }
 
+    private void createValidMoves(){
+        Iterator<Piece> iterator;
+        iterator = whitePieceList.iterator(); //only checking white list now, should do black list
+        List<Tile> moves = null;
+
+        while(iterator.hasNext()){
+            Piece piece = iterator.next();
+
+            switch(piece.getPieceType()){
+                case PAWN:
+                    moves = pawnMoves(piece);
+                    break;
+            }
+            validMoves.put(piece, moves);
+        }
+    }
+
+    private List<Tile> pawnMoves(Piece piece){
+        List<Tile> moves = new LinkedList<Tile>();
+        Tile location = piece.getLocation();
+
+        if(piece.getPieceColor() == BLACK){
+            moves.add(tiles[location.getRow()-1][location.getColumn()]);
+            if(!piece.hasMoved())
+                moves.add(tiles[location.getRow()-2][location.getColumn()]);
+        }
+        else if (piece.getPieceColor() == WHITE){
+            moves.add(tiles[location.getRow()][location.getColumn()+1]);
+            if(!piece.hasMoved())
+                moves.add(tiles[location.getRow()+2][location.getColumn()]);
+        }
+        return moves;
+    }
+
     private List<Piece> createBlackPieceList(Tile[][] tiles) {
         List<Piece> pieceList = new LinkedList<>();
 
-        pieceList.add(new Rook(Colors.BLACK, tiles[7][0]));
-        pieceList.add(new Knight(Colors.BLACK, tiles[7][1]));
-        pieceList.add(new Bishop(Colors.BLACK, tiles[7][2]));
-        pieceList.add(new Queen(Colors.BLACK, tiles[7][3]));
-        pieceList.add(new King(Colors.BLACK, tiles[7][4]));
-        pieceList.add(new Bishop(Colors.BLACK, tiles[7][5]));
-        pieceList.add(new Knight(Colors.BLACK, tiles[7][6]));
-        pieceList.add(new Rook(Colors.BLACK, tiles[7][7]));
+        pieceList.add(new Rook(BLACK, tiles[7][0]));
+        pieceList.add(new Knight(BLACK, tiles[7][1]));
+        pieceList.add(new Bishop(BLACK, tiles[7][2]));
+        pieceList.add(new Queen(BLACK, tiles[7][3]));
+        pieceList.add(new King(BLACK, tiles[7][4]));
+        pieceList.add(new Bishop(BLACK, tiles[7][5]));
+        pieceList.add(new Knight(BLACK, tiles[7][6]));
+        pieceList.add(new Rook(BLACK, tiles[7][7]));
 
         for (int i = 0; i < 8; i++) {
-            pieceList.add(new Pawn(Colors.BLACK, tiles[6][i]));
+            pieceList.add(new Pawn(BLACK, tiles[6][i]));
         }
 
         return pieceList;
@@ -45,17 +83,17 @@ public class Board extends StandardBoard {
     private List<Piece> createWhitePieceList(Tile[][] tiles) {
         List<Piece> pieceList = new LinkedList<>();
 
-        pieceList.add(new Rook(Colors.WHITE, tiles[0][0]));
-        pieceList.add(new Knight(Colors.WHITE, tiles[0][1]));
-        pieceList.add(new Bishop(Colors.WHITE, tiles[0][2]));
-        pieceList.add(new Queen(Colors.WHITE, tiles[0][3]));
-        pieceList.add(new King(Colors.WHITE, tiles[0][4]));
-        pieceList.add(new Bishop(Colors.WHITE, tiles[0][5]));
-        pieceList.add(new Knight(Colors.WHITE, tiles[0][6]));
-        pieceList.add(new Rook(Colors.WHITE, tiles[0][7]));
+        pieceList.add(new Rook(WHITE, tiles[0][0]));
+        pieceList.add(new Knight(WHITE, tiles[0][1]));
+        pieceList.add(new Bishop(WHITE, tiles[0][2]));
+        pieceList.add(new Queen(WHITE, tiles[0][3]));
+        pieceList.add(new King(WHITE, tiles[0][4]));
+        pieceList.add(new Bishop(WHITE, tiles[0][5]));
+        pieceList.add(new Knight(WHITE, tiles[0][6]));
+        pieceList.add(new Rook(WHITE, tiles[0][7]));
 
         for (int i = 0; i < 8; i++) {
-            pieceList.add(new Pawn(Colors.WHITE, tiles[1][i]));
+            pieceList.add(new Pawn(WHITE, tiles[1][i]));
         }
 
         return pieceList;
