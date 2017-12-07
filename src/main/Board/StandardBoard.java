@@ -84,7 +84,7 @@ public class StandardBoard extends Board {
     }
 
     @Override
-    protected boolean move(Piece movedPiece, Tile destination) {
+    public boolean move(Piece movedPiece, Tile destination) {
         boolean flag = false;
         switch (movedPiece.getPieceColor()) {
             case WHITE:

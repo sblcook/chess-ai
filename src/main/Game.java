@@ -80,9 +80,19 @@ public class Game {
         this.result = result;
     }
 
-    private void startGame()
+    public void startGame()
     {
-
+        //call the gui
+        //take input from gui buttons and pass it to the logic
+        turn = player1;
+        gameBoard = new StandardBoard();
+        while(!isEnded())
+        {
+            //turn = if player1 then player2 or vice versa
+            //get pieces from gui and tiles for move from gui then move piece
+            //gameBoard.move(Piece,Tile);
+            //update gui with to reflect the change in gameboard
+        }
     }
 
     private boolean isEnded()

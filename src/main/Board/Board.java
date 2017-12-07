@@ -19,6 +19,7 @@ public abstract class Board {
     }
     public List<Piece> getWhitePieceList() { return whitePieceList; }
     public List<Piece> getRemovedPieceList() { return removedPieceList;}
+    public boolean move(Piece movedPiece, Tile destination){ return false;};
 
     public Tile[][] getTiles() {
         return tiles;
@@ -32,7 +33,6 @@ public abstract class Board {
 
     protected abstract List<Piece> createRemovedPieceList(Tile[][] tiles);
 
-    protected abstract boolean move(Piece movedPiece, Tile destination);
 
     protected abstract boolean removePiece(Piece removedPiece);
 
