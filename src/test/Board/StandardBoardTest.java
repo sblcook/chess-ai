@@ -29,9 +29,9 @@ public class StandardBoardTest {
         for(int i = 0; i < 8; i++){
             Tile[] expected = new Tile[8];
             for (int j = 0; j < 8; j++){
-                expected[j] = new Tile(i+1, j+1);
+                expected[j] = new Tile(i+1, j+1,Pawn);
             }
-            assertArrayEquals(expected, tileGrid[i]);
+            assertArrayEquals(expected, tileGrid[i],Pawn);
         }
     }
 

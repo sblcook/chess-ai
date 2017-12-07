@@ -1,22 +1,31 @@
 package Board;
 
+
 import Pieces.Piece;
 
 public class Tile {
 
-    public Tile(int row, int column, Enum tileColor, boolean isOccupied, Piece occupyingPiece){
-        this.row = row;
-        this.column = column;
-        this.tileColor = tileColor;
-        this.isOccupied = isOccupied;
-        this. occupyingPiece = occupyingPiece;
-
-    }
     private int column;
     private int row;
-    public Enum tileColor;
-    public boolean isOccupied;
-    public Piece occupyingPiece;
+    private Piece piece;
+
+
+
+    public Tile(int row, int column, Piece piece){
+        this.row = row;
+        this.column = column;
+        this.piece = piece;
+
+
+    }
+
+
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+
 
 
 
