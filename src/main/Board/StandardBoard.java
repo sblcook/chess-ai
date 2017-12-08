@@ -36,7 +36,7 @@ public class StandardBoard extends Board{
             case KNIGHT:
                 return checkKnightMove(piece, tile);
             case KING:
-                return true;
+                return checkKingMove(piece, tile);
             default:
                 return false;
 
@@ -49,6 +49,34 @@ public class StandardBoard extends Board{
             return false; //outside of the board
         }
         return true;
+    }
+
+    private boolean checkKingMove(Piece piece, Tile tile){
+
+        if(!inBoardRange(tile)){
+            return false;
+        }
+        if(piece.getLocation().equals(tile)){
+            return false; //same tile
+        }
+
+        int absColDiff = Math.abs(piece.getLocation().getColumn() - tile.getColumn());
+        int absRowDiff = Math.abs(piece.getLocation().getRow() - tile.getRow());
+
+        if((absColDiff == 1 || absColDiff == 0) && (absRowDiff == 1 || absRowDiff == 0)){
+            //move to an adjacent square
+            if(tile.getPiece() == null){
+                return true;
+            }
+            else{ //square occupied
+                if(!tile.getPiece().getPieceColor().equals(piece.getPieceColor())){
+                    //different colors
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private boolean checkKnightMove(Piece piece, Tile tile){
