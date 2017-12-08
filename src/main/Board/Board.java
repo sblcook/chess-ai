@@ -4,6 +4,7 @@ import Pieces.Piece;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Board {
 
@@ -11,18 +12,7 @@ public abstract class Board {
     protected List<Piece> blackPieceList;
     protected List<Piece> whitePieceList;
     protected Tile[][] tiles;
-
-    //Methods
-    public List<Piece> getBlackPieceList() {
-        return blackPieceList;
-    }
-    public List<Piece> getWhitePieceList() {
-        return whitePieceList;
-    }
-
-    public Tile[][] getTiles() {
-        return tiles;
-    }
+    protected Map<Piece, List<Tile>> validMoves;
 
     protected abstract Tile[][] createTiles();
 
@@ -32,6 +22,25 @@ public abstract class Board {
 
     protected abstract boolean move(Piece movedPiece, Tile destination);
 
+    public List<Piece> getBlackPieceList() {
+        return blackPieceList;
+    }
+
+    public List<Piece> getWhitePieceList() {
+        return whitePieceList;
+    }
+
+    public Tile[][] getTiles() {
+        return tiles;
+    }
+
+    public Map<Piece, List<Tile>> getValidMoves() {
+        return validMoves;
+    }
+
+    public void setValidMoves(Map<Piece, List<Tile>> validMoves) {
+        this.validMoves = validMoves;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -44,7 +53,8 @@ public abstract class Board {
             return false;
         if (whitePieceList != null ? !whitePieceList.equals(board.whitePieceList) : board.whitePieceList != null)
             return false;
-        return Arrays.deepEquals(tiles, board.tiles);
+        if (!Arrays.deepEquals(tiles, board.tiles)) return false;
+        return validMoves != null ? validMoves.equals(board.validMoves) : board.validMoves == null;
     }
 
     @Override
@@ -52,6 +62,7 @@ public abstract class Board {
         int result = blackPieceList != null ? blackPieceList.hashCode() : 0;
         result = 31 * result + (whitePieceList != null ? whitePieceList.hashCode() : 0);
         result = 31 * result + Arrays.deepHashCode(tiles);
+        result = 31 * result + (validMoves != null ? validMoves.hashCode() : 0);
         return result;
     }
 }
