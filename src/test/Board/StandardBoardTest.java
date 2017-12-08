@@ -52,6 +52,18 @@ public class StandardBoardTest {
     }
 
     @Test
+    public void testRookAttack() throws Exception {
+        Piece rook = new Rook(BLACK, tile);
+        Tile dest = new Tile(4, 7);
+        Piece deadPawn = new Pawn(WHITE, dest);
+        dest.setPiece(deadPawn);
+        assertTrue(board.isValidMove(rook, dest));
+        Piece deadPawnSameColor = new Pawn(BLACK, dest);
+        dest.setPiece(deadPawnSameColor);
+        assertFalse(board.isValidMove(rook, dest));
+    }
+
+    @Test
     public void createTiles() throws Exception {
         Tile[][] tileGrid = board.getTiles();
         for(int i = 0; i < 8; i++){

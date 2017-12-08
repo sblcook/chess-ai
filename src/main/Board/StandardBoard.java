@@ -36,28 +36,37 @@ public class StandardBoard extends Board{
         }
     }
 
-    private boolean pathExistsToLoaction(Tile source, Tile dest){ //checks that there is a clear path
-        // and the piece is not moving to where it already is
-        if(!isClearPath(source, dest)) { //blocked path
-            return false;
-        }
-        if(source.equals(dest)) { //moving to the place where the piece already is
-            return false;
-        }
-        return true;
-    }
+//    private boolean pathExistsToLoaction(Tile source, Tile dest){ //checks that there is a clear path
+//        // and the piece is not moving to where it already is
+//        if(!isClearPath(source, dest)) { //blocked path
+//            return false;
+//        }
+//        if(source.equals(dest)) { //moving to the place where the piece already is
+//            return false;
+//        }
+//        return true;
+//    }
 
     private boolean checkRookMove(Piece piece, Tile tile){
-        if(!pathExistsToLoaction(piece.getLocation(), tile))
+        if(!isClearPath(piece.getLocation(), tile))
             return false;
 
-        if(piece.getLocation().getColumn() == tile.getColumn()) { //same column, we already know different row from above
+        if(piece.getLocation().getColumn() == tile.getColumn() || piece.getLocation().getRow() == tile.getRow()) {
+            //same column or same row but not both
             //we know a path exists, from it could be above, but could be diaganoal. this ensures it is in the same column
-            return true;
-        }
-        else if(piece.getLocation().getRow() == tile.getRow()){
-            //we know a path exists and now we know that they are on the same row
-            return true;
+            //must make sure that piece is empty or contains a white piece
+            if(tile.getPiece() == null){
+                //tile is empty, we can move
+                return true;
+            } else{
+                //tile occupied
+                if(!piece.getPieceColor().equals(tile.getPiece().getPieceColor())){
+                    //different colors
+                    return true;
+                } else{ //same color
+                    return false;
+                }
+            }
         }
         return false;
     }
@@ -124,7 +133,7 @@ public class StandardBoard extends Board{
 
     private boolean checkPawnMove(Piece piece, Tile tile){
 
-        if(!pathExistsToLoaction(piece.getLocation(), tile))
+        if(!isClearPath(piece.getLocation(), tile))
             return false;
 
         if(tile.getColumn() == piece.getLocation().getColumn() && tile.getPiece() == null){ //same column, forward move,
