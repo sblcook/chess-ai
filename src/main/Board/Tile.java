@@ -7,6 +7,11 @@ public class Tile {
 
     private int column;
     private int row;
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
+
     private Piece piece;
 
 

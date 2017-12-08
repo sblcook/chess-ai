@@ -1,6 +1,9 @@
 package GUI;
 
+
+
 import javax.swing.*;
+
 
 
 public class Game {
@@ -10,9 +13,11 @@ public class Game {
 
             @Override
             public void run() {
+
                 ChessGui cg = new ChessGui();
 
                 JFrame f = new JFrame("Chess Game");
+
                 f.add(cg.getGui());
 
 

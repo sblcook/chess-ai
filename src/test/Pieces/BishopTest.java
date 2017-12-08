@@ -14,10 +14,11 @@ public class BishopTest {
 
     @Test
     public void bishopTest() throws Exception {
-        Piece piece = new Bishop(Colors.BLACK, tile);
-        assertEquals(Colors.BLACK, piece.getPieceColor());
-        assertEquals(tile, piece.getLocation());
-        assertEquals(null, piece.getPieceType());
+        Piece bishop = new Bishop(Colors.BLACK, tile);
+        tile.setPiece(bishop);
+        assertEquals(Colors.BLACK, bishop.getPieceColor());
+        assertEquals(tile, bishop.getLocation());
+        assertEquals(null, bishop.getPieceType());
     }
 
 }

@@ -29,9 +29,9 @@ public class StandardBoardTest {
         for(int i = 0; i < 8; i++){
             Tile[] expected = new Tile[8];
             for (int j = 0; j < 8; j++){
-                expected[j] = new Tile(i+1, j+1,Pawn);
+                expected[j] = new Tile(i+1, j+1,null);
             }
-            assertArrayEquals(expected, tileGrid[i],Pawn);
+            assertArrayEquals(expected, tileGrid[i]);
         }
     }
 
@@ -39,17 +39,17 @@ public class StandardBoardTest {
     public void createBlackPieceList() throws Exception {
         List<Piece> expected = new LinkedList<>();
 
-        expected.add(new Rook(Colors.BLACK, tiles[7][0]));
-        expected.add(new Knight(Colors.BLACK, tiles[7][1]));
-        expected.add(new Bishop(Colors.BLACK, tiles[7][2]));
-        expected.add(new Queen(Colors.BLACK, tiles[7][3]));
-        expected.add(new King(Colors.BLACK, tiles[7][4]));
-        expected.add(new Bishop(Colors.BLACK, tiles[7][5]));
-        expected.add(new Knight(Colors.BLACK, tiles[7][6]));
-        expected.add(new Rook(Colors.BLACK, tiles[7][7]));
+        expected.add(new Rook(Colors.BLACK, tiles[0][0]));
+        expected.add(new Knight(Colors.BLACK, tiles[0][1]));
+        expected.add(new Bishop(Colors.BLACK, tiles[0][2]));
+        expected.add(new Queen(Colors.BLACK, tiles[0][3]));
+        expected.add(new King(Colors.BLACK, tiles[0][4]));
+        expected.add(new Bishop(Colors.BLACK, tiles[0][5]));
+        expected.add(new Knight(Colors.BLACK, tiles[0][6]));
+        expected.add(new Rook(Colors.BLACK, tiles[0][7]));
 
         for(int i = 0; i < 8; i++){
-            expected.add(new Pawn(Colors.BLACK, tiles[6][i]));
+            expected.add(new Pawn(Colors.BLACK, tiles[1][i]));
         }
 
         assertEquals(expected, whitePieceList);
@@ -74,5 +74,15 @@ public class StandardBoardTest {
 
         assertEquals(expected, blackPieceList);
     }
+
+    @Test
+    public void setTilePieces() throws Exception{
+        for(int i = 0;i < 8;i++){
+
+            assertEquals(true,board.getTiles()[0][i].getPiece().equals(blackPieceList.get(i)));
+        }
+    }
+
+
 
 }

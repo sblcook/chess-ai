@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class PawnTest {
-    Tile tile = new Tile(1,1);
+    Tile tile = new Tile(1,1,null);
 
     @Test
     public void pawnTest() throws Exception {
