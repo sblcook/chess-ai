@@ -27,6 +27,58 @@ public class Board extends StandardBoard {
         whitePieceList = createBlackPieceList(tiles);
     }
 
+    public boolean isValidMove(Piece piece, Tile tile){
+        switch(piece.getPieceType()){
+            case PAWN:
+                return checkPawnMove(piece, tile);
+            default:
+                return false;
+        }
+    }
+
+    private boolean checkPawnMove(Piece piece, Tile tile){
+        if(tile.getColumn() == piece.getLocation().getColumn()){ //same column, forward move
+            if(piece.getPieceColor() == BLACK) { //can only move down
+                int diff = piece.getLocation().getRow() - tile.getRow();
+                if(!piece.hasMoved()){ //pawn can move forward 2
+                    if (diff == 2 || diff == 1) {
+                        return true;
+                    }
+                }
+                else{
+                    if(diff == 1){
+                        return true;
+                    }
+                }
+            }
+            else if(piece.getPieceColor() == WHITE){ //can only move up
+                int diff = piece.getLocation().getRow() - tile.getRow();
+                if(!piece.hasMoved()){ //pawn can move forward 2
+                    if (diff == -2 || diff == -1) {
+                        return true;
+                    }
+                }
+                else{
+                    if(diff == -1){
+                        return true;
+                    }
+                }
+            }
+
+        } else if((tile.getColumn() - piece.getLocation().getColumn())%8 == 1){ //1 column apart, could attack
+            if(piece.getPieceColor() == BLACK){//move down
+                if((piece.getLocation().getRow() - tile.getRow()) == 1){ //tile is row in front of piece
+                    return true;
+                }
+            } else if(piece.getPieceColor() == WHITE){//move up
+                if((tile.getRow() - piece.getLocation().getRow()) == 1){//tile is row in front of piece
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private void createValidMoves(){
         Iterator<Piece> iterator;
         iterator = whitePieceList.iterator(); //only checking white list now, should do black list
@@ -37,14 +89,14 @@ public class Board extends StandardBoard {
 
             switch(piece.getPieceType()){
                 case PAWN:
-                    moves = pawnMoves(piece);
+                    moves = createPawnMoves(piece);
                     break;
             }
             validMoves.put(piece, moves);
         }
     }
 
-    private List<Tile> pawnMoves(Piece piece){
+    private List<Tile> createPawnMoves(Piece piece){
         List<Tile> moves = new LinkedList<Tile>();
         Tile location = piece.getLocation();
 
