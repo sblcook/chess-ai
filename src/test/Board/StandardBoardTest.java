@@ -37,6 +37,18 @@ public class StandardBoardTest {
     }
 
     @Test
+    public void testBishopAttack() throws Exception {
+        Piece bishop = new Bishop(BLACK, tile);
+        Tile dest = new Tile(3, 3);
+        Piece deadPawn = new Pawn(WHITE, dest);
+        dest.setPiece(deadPawn);
+        assertTrue(board.isValidMove(bishop, dest));
+        Piece deadPawnSameColor = new Pawn(BLACK, dest);
+        dest.setPiece(deadPawnSameColor);
+        assertFalse(board.isValidMove(bishop, dest));
+    }
+
+    @Test
     public void isValidMovePawn() throws Exception {
         Piece pawn = new Pawn(BLACK, tile);
         assertFalse(board.isValidMove(pawn, tile));
