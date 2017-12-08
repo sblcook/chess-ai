@@ -100,8 +100,17 @@ public class StandardBoard extends Board{
 
         return true;
     }
-    //still need to check that its on the board or the same location
+
+    //still need to check that its on the board or the same location and clear path
     private boolean checkPawnMove(Piece piece, Tile tile){
+
+        if(!isClearPath(piece.getLocation(), tile)) { //blocked path
+            return false;
+        }
+        if(piece.getLocation().equals(tile)) { //moving to the place where the piece already is
+            return false;
+        }
+
         if(tile.getColumn() == piece.getLocation().getColumn() && tile.getPiece() == null){ //same column, forward move,
             // no piece already there
             if(piece.getPieceColor() == BLACK) { //can only move down
@@ -132,10 +141,10 @@ public class StandardBoard extends Board{
             }
 
         } else if(tile.getPiece() != null) { //theres a piece to take
-            if ((tile.getColumn() - piece.getLocation().getColumn()) % 8 == 1) { //1 column apart, could attack
+            if (Math.abs(tile.getColumn() - piece.getLocation().getColumn()) % 8 == 1) { //1 column apart, could attack
                 if (piece.getPieceColor() == BLACK) {//move down
                     if ((piece.getLocation().getRow() - tile.getRow()) == 1) { //tile is row in front of piece
-                        if (tiles[tile.getRow()][tile.getColumn()].getPiece().getPieceColor() == WHITE) { //there is a piece to take
+                        if (tile.getPiece().getPieceColor() == WHITE) { //there is a piece to take
                             return true;
                         }
                     }
