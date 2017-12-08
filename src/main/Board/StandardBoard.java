@@ -40,6 +40,25 @@ public class StandardBoard extends Board{
     }
 
     private boolean checkBishopMove(Piece piece, Tile tile){
+        if(!isClearPath(piece.getLocation(), tile)) //a path exists between the two, but it could be a straight line
+            return false;
+
+        if(piece.getLocation().getRow() == tile.getRow() ||
+                piece.getLocation().getColumn() == tile.getColumn()){
+            return false; //can't be diagonal with the same rows or columns
+        }
+
+        if(tile.getPiece() == null) {//empty
+            return true;
+        }
+        else { // occupied
+            if(!tile.getPiece().getPieceColor().equals(piece.getPieceColor())){
+                //same piece color
+                return true;
+            }
+        }
+
+
         return false;
     }
 
