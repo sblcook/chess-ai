@@ -29,13 +29,81 @@ public class StandardBoard extends Board{
         switch(piece.getPieceType()){
             case PAWN:
                 return checkPawnMove(piece, tile);
+            case ROOK:
+                return checkRookMove(piece, tile);
             default:
                 return false;
         }
     }
 
+    private boolean checkRookMove(Piece piece, Tile tile){
+
+        return false;
+    }
+
+    private boolean isClearPath(Tile source, Tile dest){
+        if(source.equals(dest))
+            return false; //same location
+
+        if(source.getRow() == dest.getRow() && source.getColumn() != dest.getColumn()){ //same row, dif cols
+            int lower = Math.min(source.getColumn(), dest.getColumn());
+            int higher = Math.max(source.getColumn(), dest.getColumn());
+
+            for (int i = lower + 1; i < higher; i++){
+                if(tiles[dest.getRow()][i].getPiece() != null)
+                    return false;
+            }
+        }
+        else if(source.getColumn() == dest.getColumn() && source.getRow() != dest.getRow()){ //same col, diff rows
+            int lower = Math.min(source.getRow(), dest.getRow());
+            int higher = Math.max(source.getRow(), dest.getRow());
+
+            for(int i = lower + 1; i < higher; i++){
+                if(tiles[i][dest.getColumn()].getPiece() != null)
+                    return false;
+            }
+        }
+
+        else if(Math.abs(source.getColumn() - dest.getColumn()) == Math.abs(source.getRow() - dest.getRow())) { //diagonal
+
+            int lowCol = Math.min(source.getColumn(), dest.getColumn());
+            int hiCol = Math.max(source.getColumn(), dest.getColumn());
+            int lowRow = Math.min(source.getRow(), dest.getRow());
+            int hiRow = Math.max(source.getRow(), dest.getRow());
+
+            if(source.getColumn() + source.getRow() == dest.getColumn() + dest.getRow()){//on the NW-SE diagonal
+                //work from NW to SE
+                int i = hiRow - 1; //going down rows
+                int j = lowCol + 1; //going up cols
+
+                while(i > lowRow && j < hiCol){ //in range
+                    if(tiles[i][j].getPiece() != null)
+                        return false;
+                    i -= 1;
+                    j += 1;
+                }
+            }
+            else { //on the NE-SW diagonal
+                //work from SW to NE
+                int i = lowRow + 1;
+                int j = lowCol + 1;
+
+                while(i < hiRow && j < hiCol){ //see if path is free
+                    if(tiles[i][j].getPiece() != null)
+                        return false;
+
+                    i+= 1;
+                    j+= 1;
+                }
+            }
+        }
+
+        return true;
+    }
+    //still need to check that its on the board or the same location
     private boolean checkPawnMove(Piece piece, Tile tile){
-        if(tile.getColumn() == piece.getLocation().getColumn()){ //same column, forward move
+        if(tile.getColumn() == piece.getLocation().getColumn() && tile.getPiece() == null){ //same column, forward move,
+            // no piece already there
             if(piece.getPieceColor() == BLACK) { //can only move down
                 int diff = piece.getLocation().getRow() - tile.getRow();
                 if(!piece.hasMoved()){ //pawn can move forward 2
@@ -63,18 +131,21 @@ public class StandardBoard extends Board{
                 }
             }
 
-        } else if((tile.getColumn() - piece.getLocation().getColumn())%8 == 1){ //1 column apart, could attack
-            if(piece.getPieceColor() == BLACK){//move down
-                if((piece.getLocation().getRow() - tile.getRow()) == 1){ //tile is row in front of piece
-                    if(tiles[tile.getRow()][tile.getColumn()].getPiece().getPieceColor() == WHITE) { //there is a piece to take
-                        return true;
+        } else if(tile.getPiece() != null) { //theres a piece to take
+            if ((tile.getColumn() - piece.getLocation().getColumn()) % 8 == 1) { //1 column apart, could attack
+                if (piece.getPieceColor() == BLACK) {//move down
+                    if ((piece.getLocation().getRow() - tile.getRow()) == 1) { //tile is row in front of piece
+                        if (tiles[tile.getRow()][tile.getColumn()].getPiece().getPieceColor() == WHITE) { //there is a piece to take
+                            return true;
+                        }
+                    }
+                } else if (piece.getPieceColor() == WHITE) {//move up
+                    if ((tile.getRow() - piece.getLocation().getRow()) == 1) {//tile is row in front of piece
+                        if (tiles[tile.getRow()][tile.getColumn()].getPiece().getPieceColor() == BLACK) { //there is a piece to take
+                            return true;
+                        }
                     }
                 }
-            } else if(piece.getPieceColor() == WHITE){//move up
-                if((tile.getRow() - piece.getLocation().getRow()) == 1){//tile is row in front of piece
-                    if(tiles[tile.getRow()][tile.getColumn()].getPiece().getPieceColor() == BLACK) { //there is a piece to take
-                        return true;
-                    }                }
             }
         }
         return false;
