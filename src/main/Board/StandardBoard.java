@@ -31,21 +31,17 @@ public class StandardBoard extends Board{
                 return checkPawnMove(piece, tile);
             case ROOK:
                 return checkRookMove(piece, tile);
+            case BISHOP:
+                return checkBishopMove(piece, tile);
             default:
                 return false;
+
         }
     }
 
-//    private boolean pathExistsToLoaction(Tile source, Tile dest){ //checks that there is a clear path
-//        // and the piece is not moving to where it already is
-//        if(!isClearPath(source, dest)) { //blocked path
-//            return false;
-//        }
-//        if(source.equals(dest)) { //moving to the place where the piece already is
-//            return false;
-//        }
-//        return true;
-//    }
+    private boolean checkBishopMove(Piece piece, Tile tile){
+        return false;
+    }
 
     private boolean checkRookMove(Piece piece, Tile tile){
         if(!isClearPath(piece.getLocation(), tile))
