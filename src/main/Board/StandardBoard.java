@@ -37,9 +37,10 @@ public class StandardBoard extends Board{
                 return checkKnightMove(piece, tile);
             case KING:
                 return checkKingMove(piece, tile);
+            case QUEEN:
+                return checkQueenMove(piece, tile);
             default:
                 return false;
-
         }
     }
 
@@ -49,6 +50,24 @@ public class StandardBoard extends Board{
             return false; //outside of the board
         }
         return true;
+    }
+
+    private boolean checkQueenMove(Piece piece, Tile tile){
+
+        if(!isClearPath(piece.getLocation(), tile))
+            return false;
+        //now we know that there is a clear path to the piece along a row,column, or diagonal
+        //move to an adjacent square
+        if(tile.getPiece() == null){
+            return true;
+        }
+        else { //square occupied
+            if (!tile.getPiece().getPieceColor().equals(piece.getPieceColor())) {
+                //different colors
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean checkKingMove(Piece piece, Tile tile){
@@ -190,6 +209,7 @@ public class StandardBoard extends Board{
                     i -= 1;
                     j += 1;
                 }
+                return true;
             }
             else { //on the NE-SW diagonal
                 //work from SW to NE
@@ -203,10 +223,11 @@ public class StandardBoard extends Board{
                     i+= 1;
                     j+= 1;
                 }
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     private boolean checkPawnMove(Piece piece, Tile tile){

@@ -29,6 +29,26 @@ public class StandardBoardTest {
     Tile tile = new Tile(4, 4);
 
     @Test
+    public void ValidQueenMove() throws Exception {
+        Piece queen = new Queen(BLACK, tile);
+//        assertFalse(board.isValidMove(queen, tile));
+        assertFalse(board.isValidMove(queen, new Tile(0, 5)));
+        assertTrue(board.isValidMove(queen, new Tile(2, 2)));
+    }
+
+    @Test
+    public void testQueenAttack() throws Exception{
+        Piece queen = new Queen(BLACK, tile);
+        Tile dest = new Tile(0, 0);
+        Piece deadPawn = new Pawn(WHITE, dest);
+        dest.setPiece(deadPawn);
+        assertTrue(board.isValidMove(queen, dest));
+        Piece deadPawnSameColor = new Pawn(BLACK, dest);
+        dest.setPiece(deadPawnSameColor);
+        assertFalse(board.isValidMove(queen, dest));
+    }
+
+    @Test
     public void ValidKingMove() throws Exception {
         Piece king = new King(BLACK, tile);
         assertFalse(board.isValidMove(king, tile));
