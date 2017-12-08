@@ -35,6 +35,8 @@ public class StandardBoard extends Board{
                 return checkBishopMove(piece, tile);
             case KNIGHT:
                 return checkKnightMove(piece, tile);
+            case KING:
+                return true;
             default:
                 return false;
 
