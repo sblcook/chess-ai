@@ -33,10 +33,40 @@ public class StandardBoard extends Board{
                 return checkRookMove(piece, tile);
             case BISHOP:
                 return checkBishopMove(piece, tile);
+            case KNIGHT:
+                return checkKnightMove(piece, tile);
             default:
                 return false;
 
         }
+    }
+
+    private boolean inBoardRange(Tile tile){ //test that the passed tile is on a 8x8 grid
+        if(tile.getColumn() < 0 || tile.getColumn() > 7
+                && tile.getRow() < 0 && tile.getColumn() > 7){
+            return false; //outside of the board
+        }
+        return true;
+    }
+
+    private boolean checkKnightMove(Piece piece, Tile tile){
+        //dont need to check if a path exists because the knight doesn't move linearly
+        if (!inBoardRange(tile))
+            return false; //dest tile not on the board
+
+        if((Math.abs(piece.getLocation().getRow() - tile.getRow()) == 2 && Math.abs(piece.getLocation().getColumn() - tile.getColumn()) == 1)
+                || (Math.abs(piece.getLocation().getRow() - tile.getRow()) == 1 && Math.abs(piece.getLocation().getColumn() - tile.getColumn()) == 2)){
+            //either 2 rows and 1 col offset of 1 row 2 cols offset which are only valid moves for knight
+            if(tile.getPiece() == null){
+                return true;
+            } else{
+                if(!tile.getPiece().getPieceColor().equals(piece.getPieceColor())){
+                    //different colors, can move there
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean checkBishopMove(Piece piece, Tile tile){
@@ -89,6 +119,9 @@ public class StandardBoard extends Board{
     private boolean isClearPath(Tile source, Tile dest){
         if(source.equals(dest))
             return false; //same location
+
+        if(!inBoardRange(dest)) //dest not on board
+            return false;
 
         if(source.getRow() == dest.getRow() && source.getColumn() != dest.getColumn()){ //same row, dif cols
             int lower = Math.min(source.getColumn(), dest.getColumn());

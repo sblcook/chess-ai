@@ -33,13 +33,13 @@ public class StandardBoardTest {
         Piece knight = new Knight(BLACK, tile);
         assertFalse(board.isValidMove(knight, tile));
         assertFalse(board.isValidMove(knight, new Tile(4, 5)));
-        assertTrue(board.isValidMove(knight, new Tile(1, 5)));
+        assertTrue(board.isValidMove(knight, new Tile(2, 5)));
     }
 
     @Test
     public void testKnightAttack() throws Exception{
         Piece knight = new Knight(BLACK, tile);
-        Tile dest = new Tile(7, 3);
+        Tile dest = new Tile(6, 3);
         Piece deadPawn = new Pawn(WHITE, dest);
         dest.setPiece(deadPawn);
         assertTrue(board.isValidMove(knight, dest));
