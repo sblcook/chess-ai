@@ -13,16 +13,34 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
+import static Enums.Colors.BLACK;
 import static Enums.Colors.WHITE;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertFalse;
 
 public class StandardBoardTest {
 
-    private Board board = new StandardBoard();
+    private StandardBoard board = new StandardBoard();
     private Tile[][] tiles = board.getTiles();
     List<Piece> blackPieceList = board.getBlackPieceList();
     List<Piece> whitePieceList = board.getWhitePieceList();
+    Tile tile = new Tile(4, 4);
+
+    @Test
+    public void isValidMovePawn() throws Exception {
+        Piece pawn = new Pawn(BLACK, tile);
+        assertFalse(board.isValidMove(pawn, tile));
+        assertTrue(board.isValidMove(pawn, new Tile(3,4)));
+    }
+
+    @Test
+    public void isValidMoveRook() throws Exception {
+        Piece rook = new Rook(BLACK, tile);
+        assertFalse(board.isValidMove(rook, tile));
+        assertTrue(board.isValidMove(rook, new Tile(4, 5)));
+    }
 
     @Test
     public void createTiles() throws Exception {
@@ -31,6 +49,11 @@ public class StandardBoardTest {
             Tile[] expected = new Tile[8];
             for (int j = 0; j < 8; j++){
                 expected[j] = new Tile(i+1, j+1);
+                if((j+i)%2 == 0){
+                    expected[j].setColor(BLACK);
+                }else{
+                    expected[j].setColor(WHITE);
+                }
             }
             assertArrayEquals(expected, tileGrid[i]);
         }
