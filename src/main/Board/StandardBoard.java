@@ -36,8 +36,29 @@ public class StandardBoard extends Board{
         }
     }
 
-    private boolean checkRookMove(Piece piece, Tile tile){
+    private boolean pathExistsToLoaction(Tile source, Tile dest){ //checks that there is a clear path
+        // and the piece is not moving to where it already is
+        if(!isClearPath(source, dest)) { //blocked path
+            return false;
+        }
+        if(source.equals(dest)) { //moving to the place where the piece already is
+            return false;
+        }
+        return true;
+    }
 
+    private boolean checkRookMove(Piece piece, Tile tile){
+        if(!pathExistsToLoaction(piece.getLocation(), tile))
+            return false;
+
+        if(piece.getLocation().getColumn() == tile.getColumn()) { //same column, we already know different row from above
+            //we know a path exists, from it could be above, but could be diaganoal. this ensures it is in the same column
+            return true;
+        }
+        else if(piece.getLocation().getRow() == tile.getRow()){
+            //we know a path exists and now we know that they are on the same row
+            return true;
+        }
         return false;
     }
 
@@ -101,15 +122,10 @@ public class StandardBoard extends Board{
         return true;
     }
 
-    //still need to check that its on the board or the same location and clear path
     private boolean checkPawnMove(Piece piece, Tile tile){
 
-        if(!isClearPath(piece.getLocation(), tile)) { //blocked path
+        if(!pathExistsToLoaction(piece.getLocation(), tile))
             return false;
-        }
-        if(piece.getLocation().equals(tile)) { //moving to the place where the piece already is
-            return false;
-        }
 
         if(tile.getColumn() == piece.getLocation().getColumn() && tile.getPiece() == null){ //same column, forward move,
             // no piece already there
