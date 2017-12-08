@@ -36,6 +36,15 @@ public class StandardBoardTest {
     }
 
     @Test
+    public void testPawnAttack() throws Exception {
+        Piece pawn = new Pawn(BLACK, tile);
+        Tile dest = new Tile(3, 3);
+        Piece deadPawn = new Pawn(WHITE, dest);
+        dest.setPiece(deadPawn);
+        assertTrue(board.isValidMove(pawn, dest));
+    }
+
+    @Test
     public void isValidMoveRook() throws Exception {
         Piece rook = new Rook(BLACK, tile);
         assertFalse(board.isValidMove(rook, tile));
