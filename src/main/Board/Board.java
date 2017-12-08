@@ -68,12 +68,15 @@ public class Board extends StandardBoard {
         } else if((tile.getColumn() - piece.getLocation().getColumn())%8 == 1){ //1 column apart, could attack
             if(piece.getPieceColor() == BLACK){//move down
                 if((piece.getLocation().getRow() - tile.getRow()) == 1){ //tile is row in front of piece
-                    return true;
+                    if(tiles[tile.getRow()][tile.getColumn()].getPiece().getPieceColor() == WHITE) { //there is a piece to take
+                        return true;
+                    }
                 }
             } else if(piece.getPieceColor() == WHITE){//move up
                 if((tile.getRow() - piece.getLocation().getRow()) == 1){//tile is row in front of piece
-                    return true;
-                }
+                    if(tiles[tile.getRow()][tile.getColumn()].getPiece().getPieceColor() == BLACK) { //there is a piece to take
+                        return true;
+                    }                }
             }
         }
         return false;
