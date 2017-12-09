@@ -1,13 +1,17 @@
 package Board;
 
-public class Tile {
+import Pieces.Piece;
 
-    public Tile(int row, int column){
-        this.row = row;
-        this.column = column;
-    }
+public class Tile {
     private int column;
     private int row;
+    private Piece piece;
+
+    public Tile(int row, int column, Piece piece){
+        this.row = row;
+        this.column = column;
+        this.piece = piece;
+    }
 
     int getColumn(){
         return this.column;
@@ -17,8 +21,18 @@ public class Tile {
         return this.row;
     }
 
+    Piece getPiece() {
+        return piece;
+    }
+
+    void setPiece(Piece piece)
+    {
+        this.piece = piece;
+    }
+
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 

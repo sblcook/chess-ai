@@ -30,7 +30,7 @@ public class StandardBoardTest {
         for (int i = 0; i < 8; i++) {
             Tile[] expected = new Tile[8];
             for (int j = 0; j < 8; j++) {
-                expected[j] = new Tile(i + 1, j + 1);
+                expected[j] = new Tile(i + 1, j + 1, null);
             }
             assertArrayEquals(expected, tileGrid[i]);
         }
@@ -102,8 +102,7 @@ public class StandardBoardTest {
         Board board = new StandardBoard();
         whitePieceList = board.getWhitePieceList();
         Piece movedPiece = whitePieceList.get(0);
-        flag = board.move(movedPiece, tiles[4][4]);
-
+        flag = board.move(movedPiece, tiles[3][3]);
         assertEquals(flag, true);
     }
 
@@ -116,6 +115,16 @@ public class StandardBoardTest {
         flag = board.move(movedPiece, tiles[0][0]);
 
         assertEquals(flag, true);
+    }
+
+    @Test
+    public void isCheckMated()
+    {
+        boolean flag = false;
+        Board board = new StandardBoard();
+        flag = board.isCheckMated();
+        assertEquals(flag,true);
+        //flag = board.
     }
 
 }

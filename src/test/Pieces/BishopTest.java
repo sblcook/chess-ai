@@ -8,7 +8,7 @@ import static junit.framework.TestCase.assertEquals;
 
 public class BishopTest {
 
-    Tile tile = new Tile(1,1);
+    Tile tile = new Tile(1,1,null);
 
     @Test
     public void bishopTest() throws Exception {
