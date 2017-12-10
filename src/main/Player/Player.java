@@ -16,8 +16,6 @@ public abstract class Player {
         Performance = performance;
     }
 
-    public abstract ChessPieceTurn getTurn(Tile p);
-
     public String getName() {
         return name;
     }

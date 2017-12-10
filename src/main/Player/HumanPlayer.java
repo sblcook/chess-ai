@@ -9,16 +9,10 @@ import java.util.Map;
 public class HumanPlayer extends Player {
 
     String name;
+    Map<Result,Integer> performance;
 
-    Map<Result,Integer> Performance;
-
-    @Override
-    public ChessPieceTurn getTurn(Tile p){
-        return null;
-    }
-
-    public HumanPlayer(String name) {
-        this.name = name;
+    public HumanPlayer(String name, Map<Result, Integer> performance) {
+        super(name, performance);
     }
 
     public String getName() {
@@ -26,7 +20,7 @@ public class HumanPlayer extends Player {
     }
 
     public Map<Result, Integer> getPerformance() {
-        return Performance;
+        return performance;
     }
 
     public void setName(String name) {
@@ -34,6 +28,6 @@ public class HumanPlayer extends Player {
     }
 
     public void setPerformance(Map<Result, Integer> performance) {
-        Performance = performance;
+        performance = performance;
     }
 }

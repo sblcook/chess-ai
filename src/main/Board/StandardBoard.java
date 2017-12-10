@@ -1242,23 +1242,4 @@ public class StandardBoard extends Board{
     */
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        StandardBoard that = (StandardBoard) o;
-
-        if (!Arrays.deepEquals(tiles, that.tiles)) return false;
-        return validMoves != null ? validMoves.equals(that.validMoves) : that.validMoves == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + Arrays.deepHashCode(tiles);
-        result = 31 * result + (validMoves != null ? validMoves.hashCode() : 0);
-        return result;
-    }
 }

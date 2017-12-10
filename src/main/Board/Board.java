@@ -56,6 +56,8 @@ public abstract class Board {
             return false;
         if (whitePieceList != null ? !whitePieceList.equals(board.whitePieceList) : board.whitePieceList != null)
             return false;
+        if (removedPieceList != null ? !removedPieceList.equals(board.removedPieceList) : board.removedPieceList != null)
+            return false;
         if (!Arrays.deepEquals(tiles, board.tiles)) return false;
         return validMoves != null ? validMoves.equals(board.validMoves) : board.validMoves == null;
     }
@@ -64,6 +66,7 @@ public abstract class Board {
     public int hashCode() {
         int result = blackPieceList != null ? blackPieceList.hashCode() : 0;
         result = 31 * result + (whitePieceList != null ? whitePieceList.hashCode() : 0);
+        result = 31 * result + (removedPieceList != null ? removedPieceList.hashCode() : 0);
         result = 31 * result + Arrays.deepHashCode(tiles);
         result = 31 * result + (validMoves != null ? validMoves.hashCode() : 0);
         return result;
