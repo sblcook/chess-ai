@@ -11,9 +11,10 @@ public class RookTest {
 
     @Test
     public void rookTest() throws Exception {
-        Piece piece = new Rook(Colors.BLACK, tile);
-        assertEquals(Colors.BLACK, piece.getPieceColor());
-        assertEquals(tile, piece.getLocation());
+        Piece rook = new Rook(Colors.BLACK, tile);
+        tile.setPiece(rook);
+        assertEquals(Colors.BLACK, rook.getPieceColor());
+        assertEquals(tile, rook.getLocation());
     }
 
 }

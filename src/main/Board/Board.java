@@ -4,24 +4,31 @@ import Pieces.Piece;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Board {
 
     //Class variables
     protected List<Piece> blackPieceList;
     protected List<Piece> whitePieceList;
+    protected List<Piece> removedPieceList;
     protected Tile[][] tiles;
+    protected Map<Piece, List<Tile>> validMoves;
 
     //Methods
     public List<Piece> getBlackPieceList() {
         return blackPieceList;
     }
-    public List<Piece> getWhitePieceList() {
-        return whitePieceList;
-    }
-
+    public List<Piece> getWhitePieceList() { return whitePieceList; }
+    public List<Piece> getRemovedPieceList() { return removedPieceList;}
+    protected abstract boolean move(Piece movedPiece, Tile destination);
+    protected abstract boolean isCheckMated();
     public Tile[][] getTiles() {
         return tiles;
+    }
+
+    public Map<Piece, List<Tile>> getValidMoves() {
+        return validMoves;
     }
 
     protected abstract Tile[][] createTiles();
@@ -30,8 +37,13 @@ public abstract class Board {
 
     protected abstract List<Piece> createWhitePieceList(Tile[][] tiles);
 
-    protected abstract boolean move(Piece movedPiece, Tile destination);
+    protected abstract List<Piece> createRemovedPieceList(Tile[][] tiles);
 
+    protected abstract boolean removePiece(Piece removedPiece);
+
+    public void setValidMoves(Map<Piece, List<Tile>> validMoves) {
+        this.validMoves = validMoves;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -44,14 +56,19 @@ public abstract class Board {
             return false;
         if (whitePieceList != null ? !whitePieceList.equals(board.whitePieceList) : board.whitePieceList != null)
             return false;
-        return Arrays.deepEquals(tiles, board.tiles);
+        if (removedPieceList != null ? !removedPieceList.equals(board.removedPieceList) : board.removedPieceList != null)
+            return false;
+        if (!Arrays.deepEquals(tiles, board.tiles)) return false;
+        return validMoves != null ? validMoves.equals(board.validMoves) : board.validMoves == null;
     }
 
     @Override
     public int hashCode() {
         int result = blackPieceList != null ? blackPieceList.hashCode() : 0;
         result = 31 * result + (whitePieceList != null ? whitePieceList.hashCode() : 0);
+        result = 31 * result + (removedPieceList != null ? removedPieceList.hashCode() : 0);
         result = 31 * result + Arrays.deepHashCode(tiles);
+        result = 31 * result + (validMoves != null ? validMoves.hashCode() : 0);
         return result;
     }
 }
