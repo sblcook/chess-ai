@@ -1,9 +1,11 @@
 package Pieces;
 
+import Board.Board;
 import Board.Tile;
 import Enums.Colors;
 import org.junit.Test;
 
+import static Enums.PieceType.BISHOP;
 import static junit.framework.TestCase.assertEquals;
 
 public class BishopTest {
@@ -12,9 +14,11 @@ public class BishopTest {
 
     @Test
     public void bishopTest() throws Exception {
-        Piece piece = new Bishop(Colors.BLACK, tile);
-        assertEquals(Colors.BLACK, piece.getPieceColor());
-        assertEquals(tile, piece.getLocation());
+        Piece bishop = new Bishop(Colors.BLACK, tile);
+        tile.setPiece(bishop);
+        assertEquals(Colors.BLACK, bishop.getPieceColor());
+        assertEquals(tile, bishop.getLocation());
+        assertEquals(null, bishop.getPieceType());
     }
 
 }

@@ -1,6 +1,7 @@
 package Board;
 
 import Enums.Colors;
+import GUI.ChessGui;
 import Enums.PieceType;
 import Pieces.Bishop;
 import Pieces.King;
@@ -303,6 +304,8 @@ public class StandardBoard extends Board{
                 //we want the board pieces to be standard chess pieces
             }
         }
+
+
         return tileGrid;
     }
 
@@ -344,6 +347,22 @@ public class StandardBoard extends Board{
         }
 
         return pieceList;
+    }
+    private void setTilePieces(){
+        for (int i = 0; i < 8; i++) {
+            tiles[0][i].setPiece(blackPieceList.get(i));
+        }
+        for (int i = 0; i < 8; i++) {
+            tiles[1][i].setPiece(blackPieceList.get(8+i));
+        }
+        // set up the white pieces
+        for (int i = 0; i < 8; i++) {
+            tiles[6][i].setPiece(whitePieceList.get(8+1));
+        }
+        for (int i = 0; i < 8; i++) {
+            tiles[7][i].setPiece(whitePieceList.get(i));
+        }
+
     }
 
     @Override
