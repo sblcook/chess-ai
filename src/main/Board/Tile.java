@@ -1,5 +1,7 @@
 package Board;
 
+import Pieces.Piece;
+
 import Enums.Colors;
 import Pieces.Piece;
 
@@ -9,6 +11,13 @@ public class Tile {
         this.row = row;
         this.column = column;
     }
+
+    public Tile(int row, int column, Piece piece){
+        this.row = row;
+        this.column = column;
+        this.piece = piece;
+    }
+
     private int column;
     private int row;
     private Colors color;
@@ -22,7 +31,7 @@ public class Tile {
         return this.row;
     }
 
-    Colors getColor(){
+    public Colors getColor(){
         return this.color;
     }
 

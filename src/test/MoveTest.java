@@ -10,8 +10,8 @@ import static org.junit.Assert.assertEquals;
 
 
 public class MoveTest {
-    private Tile source = new Tile(1,1);
-    private Tile destination = new Tile(2,2);
+    private Tile source = new Tile(1,1, null);
+    private Tile destination = new Tile(2,2, null);
     private Piece movedPiece = new Rook(Colors.BLACK, source);
     private Piece capturedPiece = new Bishop(Colors.WHITE, destination);
 

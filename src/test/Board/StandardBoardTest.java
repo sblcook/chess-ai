@@ -31,7 +31,7 @@ public class StandardBoardTest {
     @Test
     public void ValidQueenMove() throws Exception {
         Piece queen = new Queen(BLACK, tile);
-//        assertFalse(board.isValidMove(queen, tile));
+        assertFalse(board.isValidMove(queen, tile));
         assertFalse(board.isValidMove(queen, new Tile(0, 5)));
         assertTrue(board.isValidMove(queen, new Tile(2, 2)));
     }
@@ -146,7 +146,7 @@ public class StandardBoardTest {
     @Test
     public void createTiles() throws Exception {
         Tile[][] tileGrid = board.getTiles();
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             Tile[] expected = new Tile[8];
             for (int j = 0; j < 8; j++){
                 expected[j] = new Tile(i+1, j+1);
@@ -164,20 +164,20 @@ public class StandardBoardTest {
     public void createBlackPieceList() throws Exception {
         List<Piece> expected = new LinkedList<>();
 
-        expected.add(new Rook(Colors.BLACK, tiles[7][0]));
-        expected.add(new Knight(Colors.BLACK, tiles[7][1]));
-        expected.add(new Bishop(Colors.BLACK, tiles[7][2]));
-        expected.add(new Queen(Colors.BLACK, tiles[7][3]));
-        expected.add(new King(Colors.BLACK, tiles[7][4]));
-        expected.add(new Bishop(Colors.BLACK, tiles[7][5]));
-        expected.add(new Knight(Colors.BLACK, tiles[7][6]));
-        expected.add(new Rook(Colors.BLACK, tiles[7][7]));
+        expected.add(new Rook(BLACK, tiles[7][0]));
+        expected.add(new Knight(BLACK, tiles[7][1]));
+        expected.add(new Bishop(BLACK, tiles[7][2]));
+        expected.add(new Queen(BLACK, tiles[7][3]));
+        expected.add(new King(BLACK, tiles[7][4]));
+        expected.add(new Bishop(BLACK, tiles[7][5]));
+        expected.add(new Knight(BLACK, tiles[7][6]));
+        expected.add(new Rook(BLACK, tiles[7][7]));
 
-        for(int i = 0; i < 8; i++){
-            expected.add(new Pawn(Colors.BLACK, tiles[6][i]));
+        for (int i = 0; i < 8; i++) {
+            expected.add(new Pawn(BLACK, tiles[6][i]));
         }
 
-        assertEquals(expected, whitePieceList);
+        assertEquals(expected, blackPieceList);
     }
 
     @Test
@@ -193,11 +193,31 @@ public class StandardBoardTest {
         expected.add(new Knight(WHITE, tiles[0][6]));
         expected.add(new Rook(WHITE, tiles[0][7]));
 
-        for(int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             expected.add(new Pawn(WHITE, tiles[1][i]));
         }
 
-        assertEquals(expected, blackPieceList);
+        assertEquals(expected, whitePieceList);
+    }
+
+    @Test
+    public void removeWhitePieceTest() {
+        boolean flag = false;
+        Board board = new StandardBoard();
+        Piece removedPiece = whitePieceList.get(0);
+        flag = board.removePiece(removedPiece);
+
+        assertEquals(flag, true);
+    }
+
+    @Test
+    public void removeBlackPieceTest() {
+        boolean flag = false;
+        Board board = new StandardBoard();
+        Piece removedPiece = blackPieceList.get(1);
+        flag = board.removePiece(removedPiece);
+
+        assertEquals(flag, true);
     }
 
     @Test
@@ -206,18 +226,29 @@ public class StandardBoardTest {
         Board board = new StandardBoard();
         whitePieceList = board.getWhitePieceList();
         Piece movedPiece = whitePieceList.get(0);
-        flag = board.move(movedPiece, tiles[4][4]);
-
+        flag = board.move(movedPiece, tiles[3][3]);
         assertEquals(flag, true);
     }
+
     @Test
     public void moveToCaptureTest() {
         boolean flag = false;
         Board board = new StandardBoard();
         blackPieceList = board.getBlackPieceList();
         Piece movedPiece = blackPieceList.get(0);
-        flag = board.move(movedPiece,tiles[0][0]);
+        flag = board.move(movedPiece, tiles[0][0]);
 
         assertEquals(flag, true);
     }
+
+    @Test
+    public void isCheckMated()
+    {
+        boolean flag = false;
+        Board board = new StandardBoard();
+        flag = board.isCheckMated();
+        assertEquals(flag,true);
+        //flag = board.
+    }
+
 }

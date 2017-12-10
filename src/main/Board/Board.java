@@ -11,25 +11,18 @@ public abstract class Board {
     //Class variables
     protected List<Piece> blackPieceList;
     protected List<Piece> whitePieceList;
+    protected List<Piece> removedPieceList;
     protected Tile[][] tiles;
     protected Map<Piece, List<Tile>> validMoves;
 
-    protected abstract Tile[][] createTiles();
-
-    protected abstract List<Piece> createBlackPieceList(Tile[][] tiles);
-
-    protected abstract List<Piece> createWhitePieceList(Tile[][] tiles);
-
-    protected abstract boolean move(Piece movedPiece, Tile destination);
-
+    //Methods
     public List<Piece> getBlackPieceList() {
         return blackPieceList;
     }
-
-    public List<Piece> getWhitePieceList() {
-        return whitePieceList;
-    }
-
+    public List<Piece> getWhitePieceList() { return whitePieceList; }
+    public List<Piece> getRemovedPieceList() { return removedPieceList;}
+    protected abstract boolean move(Piece movedPiece, Tile destination);
+    protected abstract boolean isCheckMated();
     public Tile[][] getTiles() {
         return tiles;
     }
@@ -37,6 +30,16 @@ public abstract class Board {
     public Map<Piece, List<Tile>> getValidMoves() {
         return validMoves;
     }
+
+    protected abstract Tile[][] createTiles();
+
+    protected abstract List<Piece> createBlackPieceList(Tile[][] tiles);
+
+    protected abstract List<Piece> createWhitePieceList(Tile[][] tiles);
+
+    protected abstract List<Piece> createRemovedPieceList(Tile[][] tiles);
+
+    protected abstract boolean removePiece(Piece removedPiece);
 
     public void setValidMoves(Map<Piece, List<Tile>> validMoves) {
         this.validMoves = validMoves;
