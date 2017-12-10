@@ -5,14 +5,22 @@ package GUI;
 import Board.Board;
 import Board.BoardFactory;
 import Pieces.Piece;
+import com.sun.glass.ui.Pixels;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import javax.imageio.ImageIO;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.text.JTextComponent;
 
 
 public class ChessGui {
@@ -21,8 +29,11 @@ public class ChessGui {
     private JButton[][] chessBoardSquares = new JButton[8][8];
     private Image[][] chessPieceImages = new Image[2][6];
     private JPanel chessBoard;
-    private JPanel rightPanel;
-    private JTextArea history;
+    private JPanel holder;
+
+    ArrayList<String> moves = new ArrayList<>();
+
+
     private final JLabel message = new JLabel(
             "chess game ready");
     private static final String COLS = "ABCDEFGH";
@@ -51,8 +62,7 @@ public class ChessGui {
         // set up the main GUI
         gui.setBorder(new EmptyBorder(5, 5, 5, 5));
         JToolBar tools = new JToolBar();
-        setupSidePanel();
-        gui.add(rightPanel);
+
 
 
 
@@ -132,7 +142,14 @@ public class ChessGui {
         JPanel boardConstrain = new JPanel(new GridBagLayout());
         boardConstrain.setBackground(ochre);
         boardConstrain.add(chessBoard);
-        gui.add(boardConstrain);
+        initComponents();
+
+        gui.add(holder);
+
+
+
+
+
 
 
 
@@ -170,6 +187,7 @@ public class ChessGui {
 
                             }
                         }else{
+                            //put logic here to check for valid move
                             chessBoardSquares[col][row].setIcon(imageOf(sb.getTiles()[pieceRow][pieceCol].getPiece()));
                             chessBoardSquares[pieceCol][pieceRow].setIcon(imageOf(null));
                             chessBoardSquares[pieceCol][pieceRow].setBorder(new LineBorder(Color.black, 0));
@@ -181,7 +199,12 @@ public class ChessGui {
                             System.out.println("from "+pieceRow+","+pieceCol);
                             System.out.println("to "+row+","+col);
                             firstPick=true;
+                            String moveString = "moved "+sb.getTiles()[row][col].getPiece().getPieceType()
+                                    +
+                                    "from "+pieceRow+","+pieceCol+" to"+row+","+col;
 
+
+                            model.addElement(moveString);
 
                         }
 
@@ -270,27 +293,156 @@ public class ChessGui {
 
 
     }
-    private void setupSidePanel(){
-        this.history = new JTextArea("History:");
-        this.history.setEditable(false);
-        this.history.setPreferredSize(new Dimension(200, 750));
-        this.history.setBackground(new Color(247, 249, 249));
+    //working here to make side panel
+    private JLabel capturedWhite;
+    private JLabel capturedBlack;
+    private JLabel moveHistory;
+    private JLabel capturedPieces;
+    private JList<String> capturedWhitePieceList;
+    private JList<String> capturedBlackPieceList;
+    private JPanel sidePanel;
+    private JScrollPane historyPane;
+    private JScrollPane jScrollPane2;
+    private JScrollPane jScrollPane4;
+    private JSeparator jSeparator1;
+    private JList<String> moveListHistory;
+    private DefaultListModel model;
 
-        rightPanel = new JPanel(new GridLayout(2, 1));
-        rightPanel.setPreferredSize(new Dimension(200, 750));
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.setBackground(new Color(247, 249, 249));
-        rightPanel.setBorder(new CompoundBorder(
-                new EmptyBorder(8,8,8,8),
-                new LineBorder(Color.BLACK)
-        ));
-        JLabel message2 = new JLabel(
-                "SIDE PANEL");
-        rightPanel.add(history);
-        rightPanel.add(message2);
+    private void initComponents() {
+
+        sidePanel = new JPanel();
+        capturedBlack = new JLabel();
+        capturedWhite = new JLabel();
+        jScrollPane2 = new JScrollPane();
+        capturedWhitePieceList = new JList<>();
+        jScrollPane4 = new JScrollPane();
+        capturedBlackPieceList = new JList<>();
+        jSeparator1 = new JSeparator();
+        moveHistory = new JLabel();
+
+        capturedPieces = new JLabel();
+        sidePanel.setBackground(new Color(153, 153, 153));
+
+        model = new DefaultListModel();
+        moveListHistory = new JList(model);
+        model.addElement("game started. ");
+        historyPane = new JScrollPane(moveListHistory);
 
 
-    }
+
+
+
+
+
+        capturedBlack.setText("Black");
+
+        capturedWhite.setText("White");
+
+        capturedWhitePieceList.setModel(new AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+
+        });
+        jScrollPane2.setViewportView(capturedWhitePieceList);
+
+        capturedBlackPieceList.setModel(new AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane4.setViewportView(capturedBlackPieceList);
+
+        moveHistory.setText("Piece Move History");
+
+        moveHistory.setHorizontalAlignment(SwingConstants.CENTER);
+
+
+
+
+
+
+
+
+
+
+        GroupLayout sidePanelLayout = new GroupLayout(sidePanel);
+
+        sidePanel.setLayout(sidePanelLayout);
+
+        sidePanelLayout.setHorizontalGroup(
+                sidePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(sidePanelLayout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(jScrollPane2, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+                                .addGap(37, 37, 37)
+                                .addComponent(jScrollPane4, GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                                .addGap(18, 18, 18))
+                        .addGroup(sidePanelLayout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(capturedWhite)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(capturedBlack)
+                                .addGap(38, 38, 38))
+                        .addGroup(GroupLayout.Alignment.TRAILING, sidePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jSeparator1)
+                                .addContainerGap())
+                        .addGroup(GroupLayout.Alignment.CENTER, sidePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(moveHistory)
+                                .addContainerGap())
+                        .addGroup(sidePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(historyPane)
+                                .addContainerGap())
+        );
+
+        sidePanelLayout.setVerticalGroup(
+                sidePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(sidePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(capturedWhite)
+                                        .addComponent(capturedBlack))
+                                .addGap(18, 18, 18)
+                                .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(25, 25, 25)
+                                .addComponent(moveHistory)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(historyPane, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
+
+        GroupLayout holderLayout = new GroupLayout(holder = new JPanel());
+        holder.setLayout(holderLayout);
+        holderLayout.setHorizontalGroup(
+                holderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(holderLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(chessBoard.getParent(), javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(sidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+        );
+        holderLayout.setVerticalGroup(
+                holderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, holderLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(sidePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
+                        .addGroup(holderLayout.createSequentialGroup()
+                                .addComponent(chessBoard.getParent(), javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 11, Short.MAX_VALUE))
+        );
+
+
+    }// </editor-fold>
 
     private ImageIcon imageOf(Piece piece) {
         if (piece == null)
