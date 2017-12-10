@@ -2,6 +2,7 @@ import Board.Board;
 import Board.StandardBoard;
 import Enums.Colors;
 import Enums.Result;
+import Move.Move;
 import Player.Player;
 import org.junit.Test;
 

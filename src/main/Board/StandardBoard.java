@@ -1,7 +1,6 @@
 package Board;
 
 import Enums.Colors;
-import GUI.ChessGui;
 import Enums.PieceType;
 import Pieces.Bishop;
 import Pieces.King;
@@ -10,9 +9,8 @@ import Pieces.Pawn;
 import Pieces.Piece;
 import Pieces.Queen;
 import Pieces.Rook;
+import Move.Move;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,6 +52,73 @@ public class StandardBoard extends Board{
             return false; //outside of the board
         }
         return true;
+    }
+
+    private boolean isClearPath(Tile source, Tile dest){
+        if(source.equals(dest))
+            return false; //same location
+
+        if(!inBoardRange(dest)) //dest not on board
+            return false;
+
+        if(source.getRow() == dest.getRow() && source.getColumn() != dest.getColumn()){ //same row, dif cols
+            int lower = Math.min(source.getColumn(), dest.getColumn());
+            int higher = Math.max(source.getColumn(), dest.getColumn());
+
+            for (int i = lower + 1; i < higher; i++){
+                if(tiles[dest.getRow()][i].getPiece() != null)
+                    return false;
+            }
+            return true;
+        }
+        else if(source.getColumn() == dest.getColumn() && source.getRow() != dest.getRow()){ //same col, diff rows
+            int lower = Math.min(source.getRow(), dest.getRow());
+            int higher = Math.max(source.getRow(), dest.getRow());
+
+            for(int i = lower + 1; i < higher; i++){
+                if(tiles[i][dest.getColumn()].getPiece() != null)
+                    return false;
+            }
+            return true;
+        }
+
+        else if(Math.abs(source.getColumn() - dest.getColumn()) == Math.abs(source.getRow() - dest.getRow())) { //diagonal
+
+            int lowCol = Math.min(source.getColumn(), dest.getColumn());
+            int hiCol = Math.max(source.getColumn(), dest.getColumn());
+            int lowRow = Math.min(source.getRow(), dest.getRow());
+            int hiRow = Math.max(source.getRow(), dest.getRow());
+
+            if(source.getColumn() + source.getRow() == dest.getColumn() + dest.getRow()){//on the NW-SE diagonal
+                //work from NW to SE
+                int i = hiRow - 1; //going down rows
+                int j = lowCol + 1; //going up cols
+
+                while(i > lowRow && j < hiCol){ //in range
+                    if(tiles[i][j].getPiece() != null)
+                        return false;
+                    i -= 1;
+                    j += 1;
+                }
+                return true;
+            }
+            else { //on the NE-SW diagonal
+                //work from SW to NE
+                int i = lowRow + 1;
+                int j = lowCol + 1;
+
+                while(i < hiRow && j < hiCol){ //see if path is free
+                    if(tiles[i][j].getPiece() != null)
+                        return false;
+
+                    i+= 1;
+                    j+= 1;
+                }
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean checkQueenMove(Piece piece, Tile tile){
@@ -166,73 +231,6 @@ public class StandardBoard extends Board{
                 }
             }
         }
-        return false;
-    }
-
-    private boolean isClearPath(Tile source, Tile dest){
-        if(source.equals(dest))
-            return false; //same location
-
-        if(!inBoardRange(dest)) //dest not on board
-            return false;
-
-        if(source.getRow() == dest.getRow() && source.getColumn() != dest.getColumn()){ //same row, dif cols
-            int lower = Math.min(source.getColumn(), dest.getColumn());
-            int higher = Math.max(source.getColumn(), dest.getColumn());
-
-            for (int i = lower + 1; i < higher; i++){
-                if(tiles[dest.getRow()][i].getPiece() != null)
-                    return false;
-            }
-            return true;
-        }
-        else if(source.getColumn() == dest.getColumn() && source.getRow() != dest.getRow()){ //same col, diff rows
-            int lower = Math.min(source.getRow(), dest.getRow());
-            int higher = Math.max(source.getRow(), dest.getRow());
-
-            for(int i = lower + 1; i < higher; i++){
-                if(tiles[i][dest.getColumn()].getPiece() != null)
-                    return false;
-            }
-            return true;
-        }
-
-        else if(Math.abs(source.getColumn() - dest.getColumn()) == Math.abs(source.getRow() - dest.getRow())) { //diagonal
-
-            int lowCol = Math.min(source.getColumn(), dest.getColumn());
-            int hiCol = Math.max(source.getColumn(), dest.getColumn());
-            int lowRow = Math.min(source.getRow(), dest.getRow());
-            int hiRow = Math.max(source.getRow(), dest.getRow());
-
-            if(source.getColumn() + source.getRow() == dest.getColumn() + dest.getRow()){//on the NW-SE diagonal
-                //work from NW to SE
-                int i = hiRow - 1; //going down rows
-                int j = lowCol + 1; //going up cols
-
-                while(i > lowRow && j < hiCol){ //in range
-                    if(tiles[i][j].getPiece() != null)
-                        return false;
-                    i -= 1;
-                    j += 1;
-                }
-                return true;
-            }
-            else { //on the NE-SW diagonal
-                //work from SW to NE
-                int i = lowRow + 1;
-                int j = lowCol + 1;
-
-                while(i < hiRow && j < hiCol){ //see if path is free
-                    if(tiles[i][j].getPiece() != null)
-                        return false;
-
-                    i+= 1;
-                    j+= 1;
-                }
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -350,6 +348,7 @@ public class StandardBoard extends Board{
 
         return pieceList;
     }
+
     private void setTilePieces(){
         for (int i = 0; i < 8; i++) {
             tiles[0][i].setPiece(blackPieceList.get(i));
@@ -374,30 +373,135 @@ public class StandardBoard extends Board{
     }
 
     @Override
-    public boolean move(Piece movedPiece, Tile destination) {
-        boolean flag = false;
-        switch (movedPiece.getPieceColor()) {
-            case WHITE:
-                flag = moveWhitePiece(movedPiece, destination);
-                break;
-            case BLACK:
-                flag = moveBlackPiece(movedPiece, destination);
-                break;
+    public Move move(Piece movedPiece, Tile destination) {
+
+        if(!isValidMove(movedPiece, destination))
+            return null; //not a valid move
+
+        Move move = null;
+
+        if(destination.getPiece() != null){
+            move = capturePiece(movedPiece, destination);
+
+        } else{ //we can just move there
+            move = new Move(movedPiece.getLocation(), destination, movedPiece, null);
+            //update piece and update it in its colors' piecelist
+            if(movedPiece.getPieceColor().equals(BLACK)){
+                int index = blackPieceList.indexOf(movedPiece);
+                movedPiece.setHasMoved(true);
+                movedPiece.setLocation(destination);
+                blackPieceList.set(index, movedPiece);
+            }
+            else if(movedPiece.getPieceColor().equals(WHITE)){
+                int index = whitePieceList.indexOf(movedPiece);
+                movedPiece.setHasMoved(true);
+                movedPiece.setLocation(destination);
+                whitePieceList.set(index, movedPiece);
+            }
+            else{
+                return null;
+            }
+
+            //update tiles with new location
+            destination.setPiece(movedPiece);
+            tiles[destination.getRow()][destination.getColumn()] = destination;
         }
-        return flag;
+        //check checkmate
+        return move;
     }
 
     @Override
-    public boolean isCheckMated() {
-        boolean flag = false;
-        move(whitePieceList.get(6), tiles[5][5]);
-        if (isInCheck()) {
-            flag = checkForCheckMate();
-        } else {
-            flag = false;
+    public boolean isCheckMated(Piece king) {
+
+        int row = king.getLocation().getRow();
+        int col = king.getLocation().getColumn();
+
+        boolean onTop = false;
+        boolean onBottom = false;
+        boolean onLeft = false;
+        boolean onRight = false; //says if the king is along a side
+
+        switch(row){
+            case 0:
+                onBottom = true;
+                break;
+            case 7:
+                onTop = true;
+                break;
         }
-        //flag = checkForCheckMate();
-        return flag;
+
+        switch(col){
+            case 0:
+                onLeft = true;
+                break;
+            case 7:
+                onRight = true;
+                break;
+        }
+
+        if(onTop || onBottom || onLeft || onRight){ //along an edge
+            int i  = 0;
+            int j = 0;
+            //on a corner
+            if(onTop && onLeft) {//top left
+                if (isValidMove(king, tiles[row][col + 1]) || isValidMove(king, tiles[row - 1][col + 1]) || isValidMove(king, tiles[row - 1][col])) {
+                    if (!isInCheck(king, tiles[row][col + 1]) || !isInCheck(king, tiles[row - 1][col + 1]) || !isInCheck(king, tiles[row - 1][col])) {
+                        return true;
+                    }
+                }
+            }
+            else if(onTop && onRight){ // top right
+                if (isValidMove(king, tiles[row][col - 1]) || isValidMove(king, tiles[row - 1][col - 1]) || isValidMove(king, tiles[row - 1][col])) {
+                    if (!isInCheck(king, tiles[row][col - 1]) || !isInCheck(king, tiles[row - 1][col - 1]) || !isInCheck(king, tiles[row - 1][col])) {
+                        return true;
+                    }
+                }
+            }
+            else if(onBottom && onLeft){
+                if (isValidMove(king, tiles[row][col + 1]) || isValidMove(king, tiles[row + 1][col + 1]) || isValidMove(king, tiles[row + 1][col])) {
+                    if (!isInCheck(king, tiles[row][col + 1]) || !isInCheck(king, tiles[row + 1][col + 1]) || !isInCheck(king, tiles[row + 1][col])) {
+                        return true;
+                    }
+                }
+            }
+            else if(onBottom && onRight){
+                if (isValidMove(king, tiles[row][col - 1]) || isValidMove(king, tiles[row + 1][col - 1]) || isValidMove(king, tiles[row + 1][col])) {
+                    if (!isInCheck(king, tiles[row][col - 1]) || !isInCheck(king, tiles[row + 1][col - 1]) || !isInCheck(king, tiles[row + 1][col])) {
+                        return true;
+                    }
+                }
+            }
+            //along a side, not a corner
+            else if(onTop){
+
+            }
+            else if(onBottom){
+
+            }
+            else if(onLeft){
+
+            }
+            else if(onRight){
+
+            }
+            return false;
+        }
+        else{//not along an edge, can try all 8 directions
+            //cardinal directions (N, E, S, W)
+            for (int i = row - 1; i <= row + 1; i ++){
+                for(int j = col -1; j <= col +1; j++){
+                    if(isValidMove(king, tiles[i][j])){
+                        if(!isInCheck(king, tiles[i][j])){
+                            return true; //king can move there and the place is not in check
+                        }
+                    }
+                }
+            }
+            //check diagonals
+
+
+        }
+        return false; //no suitable move was found
 
     }
 
@@ -417,20 +521,17 @@ public class StandardBoard extends Board{
 
     private void setTiles(Tile[][] tiles) {
         int i, j;
-//        int counter = 0;
         for (i = 0; i < 2; i++) {
             for (j = 0; j < 8; j++) {
                 tiles[i][j].setPiece(whitePieceList.get((i*8)+j));
             }
         }
-//        counter = 0;
         for (i = 7; i > 5; i--) {
             for (j = 0; j < 8; j++) {
                 tiles[i][j].setPiece(blackPieceList.get((i-6)*8+j));
             }
         }
     }
-
 
     private boolean removeWhitePiece(Piece removedPiece) {
         boolean flag = false;
@@ -457,53 +558,68 @@ public class StandardBoard extends Board{
         return flag;
     }
 
-    private boolean moveWhitePiece(Piece movedPiece, Tile destination) {
-        boolean flag = false;
-        if (tileEmpty(destination)) {
-            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(null);
-            movedPiece.setLocation(destination);
-            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(movedPiece);
-            flag = true;
-        } else {
-            if (tileHasBlackPiece(destination)) {
-                flag = capturePiece(movedPiece, destination);
-            } else {
-                //Do nothing because tile already has a white piece on it
-            }
+//    private boolean moveWhitePiece(Piece movedPiece, Tile destination) {
+//        boolean flag = false;
+//        if (tileEmpty(destination)) {
+//            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(null);
+//            movedPiece.setLocation(destination);
+//            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(movedPiece);
+//            flag = true;
+//        } else {
+//            if (tileHasBlackPiece(destination)) {
+//                flag = capturePiece(movedPiece, destination);
+//            } else {
+//                //Do nothing because tile already has a white piece on it
+//            }
+//        }
+//        return flag;
+//    }
+//
+//    private boolean moveBlackPiece(Piece movedPiece, Tile destination) {
+//        boolean flag = false;
+//        if (tileEmpty(destination)) {
+//            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(null);
+//            movedPiece.setLocation(destination);
+//            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(movedPiece);
+//            flag = true;
+//        } else {
+//            if (tileHasWhitePiece(destination)) {
+//                flag = capturePiece(movedPiece, destination);
+//            } else {
+//                //Do nothing because tile already has a white piece on it
+//            }
+//        }
+//        return flag;
+//    }
+
+    private Move capturePiece(Piece movedPiece, Tile destination) {
+
+        int index = 0;
+        List<Piece> ambiguousPieceList = null;
+        Move move = new Move(movedPiece.getLocation(), destination, movedPiece, destination.getPiece());
+
+        if(destination.getPiece().getPieceColor().equals(BLACK)){ //black piece to be captured
+            blackPieceList.remove(destination.getPiece());
+            ambiguousPieceList = whitePieceList;
+        } else if(destination.getPiece().getPieceColor().equals(WHITE)){//white piece to be captured
+            whitePieceList.remove(destination.getPiece());
+            ambiguousPieceList = blackPieceList;
         }
-        return flag;
+        //updating piece list with correct piece
+        index = ambiguousPieceList.indexOf(movedPiece);
+        movedPiece.setLocation(destination);
+        movedPiece.setHasMoved(true);
+        ambiguousPieceList.set(index, movedPiece);
+        removedPieceList.add(destination.getPiece());
+
+        //updating tiles with correct tile
+        destination.setPiece(movedPiece);
+        tiles[destination.getRow()][destination.getColumn()] = destination;
+
+        return move;
     }
 
-    private boolean moveBlackPiece(Piece movedPiece, Tile destination) {
-        boolean flag = false;
-        if (tileEmpty(destination)) {
-            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(null);
-            movedPiece.setLocation(destination);
-            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(movedPiece);
-            flag = true;
-        } else {
-            if (tileHasWhitePiece(destination)) {
-                flag = capturePiece(movedPiece, destination);
-            } else {
-                //Do nothing because tile already has a white piece on it
-            }
-        }
-        return flag;
-    }
-
-    private boolean capturePiece(Piece movedPiece, Tile destination) {
-        //should be false unless moveValid
-        boolean flag = true;
-        /*
-        if(moveValid(movedPiece, destination))
-        {
-            //capture Piece
-            flag = true;
-        }
-        */
-        return flag;
-    }
-
+    //these 3 following methods might be unneccessary since we have the piece on the tile object
     private boolean tileHasBlackPiece(Tile destination) {
         boolean flag = false;
         for (int i = 0; i < blackPieceList.size(); i++) {
@@ -539,12 +655,26 @@ public class StandardBoard extends Board{
         return flag;
     }
 
+    private boolean isInCheck(Piece king, Tile tile) { //only checks blackpiece list for check
+//        boolean flag = false;
+//        int i = 0;
+//        flag = onThreatenedTile(blackPieceList.get(4)); //this shouldn't be hard coded
+//        return flag;
 
-    private boolean isInCheck() {
-        boolean flag = false;
-        int i = 0;
-        flag = onThreatenedTile(blackPieceList.get(4));
-        return flag;
+        List<Piece> ambiguousPieceList = null;
+
+        if(king.getPieceColor().equals(WHITE)) {
+            ambiguousPieceList = blackPieceList;
+        }
+        else if(king.getPieceColor().equals(BLACK)) {
+            ambiguousPieceList = whitePieceList;
+        }
+        for (int i = 0; i < ambiguousPieceList.size(); i++){
+            Piece foreignPiece = ambiguousPieceList.get(i);
+            if(isValidMove(foreignPiece, tile))
+                return true;
+        }
+        return false;
     }
 
     private boolean checkForCheckMate() {

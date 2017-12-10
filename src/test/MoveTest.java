@@ -1,10 +1,9 @@
 import Board.Tile;
 import Enums.Colors;
+import Move.Move;
 import Pieces.Bishop;
 import Pieces.Piece;
 import Pieces.Rook;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
