@@ -184,6 +184,7 @@ public class StandardBoard extends Board{
                 if(tiles[dest.getRow()][i].getPiece() != null)
                     return false;
             }
+            return true;
         }
         else if(source.getColumn() == dest.getColumn() && source.getRow() != dest.getRow()){ //same col, diff rows
             int lower = Math.min(source.getRow(), dest.getRow());
@@ -193,6 +194,7 @@ public class StandardBoard extends Board{
                 if(tiles[i][dest.getColumn()].getPiece() != null)
                     return false;
             }
+            return true;
         }
 
         else if(Math.abs(source.getColumn() - dest.getColumn()) == Math.abs(source.getRow() - dest.getRow())) { //diagonal
@@ -415,16 +417,16 @@ public class StandardBoard extends Board{
 
     private void setTiles(Tile[][] tiles) {
         int i, j;
-        int counter = 0;
+//        int counter = 0;
         for (i = 0; i < 2; i++) {
             for (j = 0; j < 8; j++) {
-                tiles[i][j].setPiece(whitePieceList.get(counter++));
+                tiles[i][j].setPiece(whitePieceList.get((i*8)+j));
             }
         }
-        counter = 0;
-        for (i = 6; i < 8; i++) {
+//        counter = 0;
+        for (i = 7; i > 5; i--) {
             for (j = 0; j < 8; j++) {
-                tiles[i][j].setPiece(blackPieceList.get(counter++));
+                tiles[i][j].setPiece(blackPieceList.get((i-6)*8+j));
             }
         }
     }
@@ -458,9 +460,9 @@ public class StandardBoard extends Board{
     private boolean moveWhitePiece(Piece movedPiece, Tile destination) {
         boolean flag = false;
         if (tileEmpty(destination)) {
-            tiles[movedPiece.getLocation().getRow() - 1][movedPiece.getLocation().getColumn() - 1].setPiece(null);
+            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(null);
             movedPiece.setLocation(destination);
-            tiles[movedPiece.getLocation().getRow() - 1][movedPiece.getLocation().getColumn() - 1].setPiece(movedPiece);
+            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(movedPiece);
             flag = true;
         } else {
             if (tileHasBlackPiece(destination)) {
@@ -475,9 +477,9 @@ public class StandardBoard extends Board{
     private boolean moveBlackPiece(Piece movedPiece, Tile destination) {
         boolean flag = false;
         if (tileEmpty(destination)) {
-            tiles[movedPiece.getLocation().getRow() - 1][movedPiece.getLocation().getColumn() - 1].setPiece(null);
+            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(null);
             movedPiece.setLocation(destination);
-            tiles[movedPiece.getLocation().getRow() - 1][movedPiece.getLocation().getColumn() - 1].setPiece(movedPiece);
+            tiles[movedPiece.getLocation().getRow()][movedPiece.getLocation().getColumn()].setPiece(movedPiece);
             flag = true;
         } else {
             if (tileHasWhitePiece(destination)) {

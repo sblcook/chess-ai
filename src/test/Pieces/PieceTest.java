@@ -9,7 +9,7 @@ import static junit.framework.TestCase.assertEquals;
 
 public class PieceTest {
 
-    Tile tile = new Tile(2, 4, null);
+    Tile tile = new Tile(2, 4);
     Piece piece = new Piece(Colors.BLACK, null, PieceType.KING); //tile null to be set in getter test
 
     @Test

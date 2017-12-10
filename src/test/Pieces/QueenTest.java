@@ -7,7 +7,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 public class QueenTest {
-    Tile tile = new Tile(1,1,null);
+    Tile tile = new Tile(1,1);
 
     @Test
     public void queenTest() throws Exception {

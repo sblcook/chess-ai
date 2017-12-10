@@ -7,7 +7,7 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertEquals;
 
 public class RookTest {
-    Tile tile = new Tile(1,1,null);
+    Tile tile = new Tile(1,1);
 
     @Test
     public void rookTest() throws Exception {

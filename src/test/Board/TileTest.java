@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class TileTest {
 
-    private Tile tile = new Tile(5, 5, null);
+    private Tile tile = new Tile(5, 5);
 
     @Test
     public void getColumn() throws Exception {

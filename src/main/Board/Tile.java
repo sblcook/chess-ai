@@ -13,11 +13,11 @@ public class Tile {
         this.piece = null;
     }
 
-    public Tile(int row, int column, Piece piece){
-        this.row = row;
-        this.column = column;
-        this.piece = piece;
-    }
+//    public Tile(int row, int column, Piece piece){
+//        this.row = row;
+//        this.column = column;
+//        this.piece = piece;
+//    }
 
     private int column;
     private int row;

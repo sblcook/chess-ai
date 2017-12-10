@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class PawnTest {
-    Tile tile = new Tile(1,1, null);
+    Tile tile = new Tile(1,1);
 
     @Test
     public void pawnTest() throws Exception {
