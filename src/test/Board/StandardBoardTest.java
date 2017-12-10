@@ -1,6 +1,5 @@
 package Board;
 
-import Enums.Colors;
 import Pieces.Bishop;
 import Pieces.King;
 import Pieces.Knight;
@@ -9,6 +8,7 @@ import Pieces.Piece;
 import Pieces.Queen;
 import Pieces.Rook;
 import org.junit.Test;
+import Move.Move;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +19,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 public class StandardBoardTest {
 
@@ -202,33 +203,11 @@ public class StandardBoardTest {
 
     @Test
     public void moveToEmptyTest() {
-        boolean flag = false;
         Board board = new StandardBoard();
         whitePieceList = board.getWhitePieceList();
-        Piece movedPiece = whitePieceList.get(0);
-        flag = board.move(movedPiece, tiles[3][3]);
-        assertEquals(flag, true);
-    }
-
-//    @Test
-//    public void moveToCaptureTest() {
-//        boolean flag = false;
-//        Board board = new StandardBoard();
-//        blackPieceList = board.getBlackPieceList();
-//        Piece movedPiece = blackPieceList.get(0);
-//        flag = board.move(movedPiece, tiles[6][6]);
-//
-//        assertEquals(flag, true);
-//    }
-
-    @Test
-    public void isCheckMated()
-    {
-        boolean flag = false;
-        Board board = new StandardBoard();
-        flag = board.isCheckMated();
-        assertEquals(flag,true);
-        //flag = board.
+        Piece movedPiece = whitePieceList.get(11);
+        Move move = board.move(movedPiece, tiles[3][3]);
+        assertNotNull(move);
     }
 
 }

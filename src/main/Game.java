@@ -2,13 +2,13 @@ import Board.Board;
 import Board.BoardFactory;
 import Board.StandardBoard;
 import Enums.Result;
+import Move.Move;
 import Player.Player;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import Player.Player;
-import Player.HumanPlayer;
+
 import Enums.Colors;
 
 public class Game {

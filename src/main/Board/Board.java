@@ -1,5 +1,6 @@
 package Board;
 
+import Move.Move;
 import Pieces.Piece;
 
 import java.util.Arrays;
@@ -21,8 +22,8 @@ public abstract class Board {
     }
     public List<Piece> getWhitePieceList() { return whitePieceList; }
     public List<Piece> getRemovedPieceList() { return removedPieceList;}
-    protected abstract boolean move(Piece movedPiece, Tile destination);
-    protected abstract boolean isCheckMated();
+    protected abstract Move move(Piece movedPiece, Tile destination);
+    protected abstract boolean isCheckMated(Piece piece);
     public Tile[][] getTiles() {
         return tiles;
     }
@@ -41,7 +42,7 @@ public abstract class Board {
 
     protected abstract boolean removePiece(Piece removedPiece);
 
-    public void setValidMoves(Map<Piece, List<Tile>> validMoves) {
+    protected void setValidMoves(Map<Piece, List<Tile>> validMoves) {
         this.validMoves = validMoves;
     }
 
