@@ -23,7 +23,7 @@ public abstract class Board {
     public List<Piece> getWhitePieceList() { return whitePieceList; }
     public List<Piece> getRemovedPieceList() { return removedPieceList;}
     protected abstract Move move(Piece movedPiece, Tile destination);
-    protected abstract boolean isCheckMated(Piece piece);
+    public abstract boolean isCheckMated();
     public Tile[][] getTiles() {
         return tiles;
     }

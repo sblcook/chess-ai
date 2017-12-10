@@ -1,6 +1,6 @@
 import Board.Board;
 import Board.BoardFactory;
-import Board.StandardBoard;
+import Enums.Colors;
 import Enums.Result;
 import Move.Move;
 import Player.Player;
@@ -8,8 +8,6 @@ import Player.Player;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import Enums.Colors;
 
 public class Game {
 
@@ -85,20 +83,26 @@ public class Game {
         //call the gui
         //take input from gui buttons and pass it to the logic
         turn = player1;
-        gameBoard = new StandardBoard();
+//        gameBoard = new StandardBoard();
         while(!isEnded())
         {
-            //turn = if player1 then player2 or vice versa
             //get pieces from gui and tiles for move from gui then move piece
-            //gameBoard.move(Piece,Tile);
+            //boolean movedSuccessfully = gameBoard.move(Piece,Tile);
+            //update history list with a new Move
+            //gameBoard.inInCheckmate();
             //update gui with to reflect the change in gameboard
+
+            if(turn == player1){
+                turn = player2;
+            } else{
+                turn = player1;
+            }
         }
     }
 
-    private boolean isEnded()
-    {
-      boolean flag = false;
-     // if ( gameBoard.isCheckMated() == true)
-      return flag;
+    private boolean isEnded() {
+        if(gameBoard.isCheckMated())
+            return true;
+      return false;
     }
 }
