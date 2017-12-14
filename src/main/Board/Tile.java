@@ -1,39 +1,28 @@
 package Board;
 
+import Pieces.Piece;
 
+import Enums.Colors;
 import Pieces.Piece;
 
 public class Tile {
 
-    private int column;
-    private int row;
-
-    public void setPiece(Piece piece) {
-        this.piece = piece;
-    }
-
-    private Piece piece;
-
-
-
-    public Tile(int row, int column, Piece piece){
+    public Tile(int row, int column){
         this.row = row;
         this.column = column;
-        this.piece = piece;
-
-
+        this.piece = null;
     }
 
+//    public Tile(int row, int column, Piece piece){
+//        this.row = row;
+//        this.column = column;
+//        this.piece = piece;
+//    }
 
-
-    public Piece getPiece() {
-        return piece;
-    }
-
-
-
-
-
+    private int column;
+    private int row;
+    private Colors color;
+    private Piece piece;
 
     int getColumn(){
         return this.column;
@@ -43,6 +32,22 @@ public class Tile {
         return this.row;
     }
 
+    public Colors getColor(){
+        return this.color;
+    }
+
+    void setColor(Colors color){
+        this.color = color;
+    }
+
+    public Piece getPiece() {
+        return piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,14 +55,18 @@ public class Tile {
 
         Tile tile = (Tile) o;
 
-        return row == tile.row && column == tile.column;
+        if (column != tile.column) return false;
+        if (row != tile.row) return false;
+        if (color != tile.color) return false;
+        return piece != null ? piece.equals(tile.piece) : tile.piece == null;
     }
 
     @Override
     public int hashCode() {
         int result = column;
         result = 31 * result + row;
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + (piece != null ? piece.hashCode() : 0);
         return result;
     }
-
 }

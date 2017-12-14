@@ -1,8 +1,9 @@
-
 package Player;
 
+import Board.Tile;
 import Enums.Result;
-
+import Enums.Result;
+import java.util.Map;
 import java.util.Map;
 
 public abstract class Player {
@@ -18,7 +19,6 @@ public abstract class Player {
     public String getName() {
         return name;
     }
-
 
     public Map<Result, Integer> getPerformance() {
         return Performance;

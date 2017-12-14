@@ -51,7 +51,7 @@ public class ChessGui {
     BoardFactory bf = new BoardFactory();
     Board sb = bf.getBoard("StandardBoard");
 
-    ChessGui() {
+    public ChessGui() {
         initializeGui();
     }
 

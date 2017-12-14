@@ -1,14 +1,17 @@
-package GUI;
-
-
+import Enums.Result;
+import GUI.ChessGui;
+import Player.*;
 
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.Map;
 
-
-
-public class Game {
-
+public class Main {
     public static void main(String[] args) {
+
+
+
+
         Runnable r = new Runnable() {
 
             @Override
